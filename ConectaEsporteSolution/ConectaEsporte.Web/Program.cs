@@ -9,11 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var appSettings = builder.Configuration.GetSection("AppSettings");
+var _domain = appSettings.GetValue<string>("Context").ToLower();
 
+var _loginPath = _domain.Contains("professor") ? "/Access/LoginProfessor" : "/Access/LoginAluno";
 // Add Signature
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(option => {
-		option.LoginPath = "/Access/LoginAluno";
+		
+		option.LoginPath = _loginPath;
 		option.ExpireTimeSpan = TimeSpan.FromSeconds(30);
 	});
 
@@ -43,8 +47,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Access}/{action=LoginAluno}/{id?}");
-
+if (_domain.Contains("professor"))
+{
+    app.MapControllerRoute(
+   name: "default",
+   pattern: "{controller=Access}/{action=LoginProfessor}/{id?}");
+    
+}
+else
+{
+    app.MapControllerRoute(
+         name: "default",
+         pattern: "{controller=Access}/{action=LoginAluno}/{id?}");
+}
 app.Run();

@@ -43,7 +43,18 @@ namespace ConectaSolution.Controllers
 			return View();
 		}
 
-		public IActionResult LoginMaster()
+		//public IActionResult LoginMaster()
+		//{
+		//	ClaimsPrincipal claimUser = HttpContext.User;
+
+		//	if (claimUser.Identity.IsAuthenticated)
+		//		return RedirectToAction("Index", "Dashboard");
+
+
+		//	return View();
+		//}
+
+		public IActionResult ForgotAluno()
 		{
 			ClaimsPrincipal claimUser = HttpContext.User;
 
@@ -54,18 +65,19 @@ namespace ConectaSolution.Controllers
 			return View();
 		}
 
-		public IActionResult Forgot()
-		{
-			ClaimsPrincipal claimUser = HttpContext.User;
 
-			if (claimUser.Identity.IsAuthenticated)
-				return RedirectToAction("Index", "Dashboard");
+        public IActionResult ForgotProfessor()
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+
+            if (claimUser.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Dashboard");
 
 
-			return View();
-		}
+            return View();
+        }
 
-		public IActionResult RegisterAluno()
+        public IActionResult RegisterAluno()
 		{
 			ClaimsPrincipal claimUser = HttpContext.User;
 
