@@ -4,7 +4,7 @@ on:
    #   - main
   workflow_dispatch:
   
-name: Deploy Web (.NET)
+name: Deploy Web (.NET) - Aluno
 
 env:
   VERSION_NAME: WebProd
