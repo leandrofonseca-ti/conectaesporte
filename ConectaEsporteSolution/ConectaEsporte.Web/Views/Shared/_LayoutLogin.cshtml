@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html ng-app="PORTAL" lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="gestao, quadras, esporte">
+    <meta name="author" content="Leandro Fonseca">
+    <meta name="robots" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CE:Conecta Esporte">
+    <meta property="og:title" content="CE:Conecta Esporte">
+    <meta property="og:description" content="CE:Conecta Esporte">
+    <meta property="og:image" content="@Url.Content("~/images/logo1.png")">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- PAGE TITLE HERE -->
+    <title>Conecta Esporte</title>
+
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="@Url.Content("~/images/favicon/favicon-32x32.png")">
+    <link href="@Url.Content("~/vendor/bootstrap-select/dist/css/bootstrap-select.min.css")" rel="stylesheet" />
+
+    <link rel="stylesheet" href="@Url.Content("~/vendor/toastr/css/toastr.min.css")" />
+    <link href="@Url.Content("~/css/style.css")" rel="stylesheet">
+
+</head>
+
+<body class="vh-100">
+    @{
+        ConectaEsporte.Web.Setup.VariableHidden variables = new ConectaEsporte.Web.Setup.VariableHidden(this.Context);
+
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.AddJsonFile(System.IO.Path.Combine(AppContext.BaseDirectory, "appsettings.json"), false, true);
+        var configRoot = builder.Build();
+        var rootUrl = configRoot.GetValue<string>("AppSettings:RootUrl");
+    }
+    <input type="hidden" id="hdnRoot" value="@rootUrl" />
+    <input type="hidden" id="hdnIsAuthenticated" value="@variables.IsAuthenticated.ToString()" />
+    <input type="hidden" id="hdnUserName" value="@variables.UserName" />
+    <input type="hidden" id="hdnUserEmail" value="@variables.UserEmail" />
+    <input type="hidden" id="hdnUserPicture" value="@variables.UserPicture" />
+    <input type="hidden" id="hdnUserProfileId" value="@variables.UserProfileId" />
+
+    <div class="authincation h-100">
+        <div class="container-fluid h-100">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+    <script src="@Url.Content("~/js/angular-locale_pt-br.js")"></script>
+    <script src="@Url.Content("~/scripts/JSBASE.js?t=" + Guid.NewGuid())"></script>
+    <!-- Required vendors -->
+    <!-- All init script -->
+
+    <script src="@Url.Content("~/vendor/global/global.min.js")"></script>
+
+    <script src="@Url.Content("~/vendor/toastr/js/toastr.min.js")"></script>
+    <script src="@Url.Content("~/vendor/bootstrap-select/dist/js/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/js/deznav-init.js")"></script>
+
+    <script src="@Url.Content("~/js/custom.js")"></script>
+    <script src="@Url.Content("~/js/styleSwitcher.js")"></script>
+
+
+    @RenderSection("scripts", required: false);
+
+</body>
+</html>

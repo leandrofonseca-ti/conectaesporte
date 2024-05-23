@@ -1,0 +1,63 @@
+﻿@model ConectaSolution.Models.VMLogin;
+@{
+	Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="row h-100" ng-controller="RegisterController">
+	<div class="col-lg-6 col-md-12 col-sm-12 mx-auto align-self-center">
+		<div class="login-form">
+			<div class="text-center">
+				<div class="h-100">
+					<div class="login-media text-center">
+						<img src="@Url.Content("~/images/logo-full.png")" alt="">
+					</div>
+				</div>
+				<p>Informe os dados abaixo para cadastrar-se no Conecta Esporte</p>
+			</div>
+			<form asp-controller="Access" asp-action="Register" method="post">
+				<div class="mb-4">
+					<label class="mb-1 text-dark">Nome</label>
+					<input type="text" id="Name" name="Name" ng-class="clsErrorName" ng-model="objName" class="form-control" placeholder="Nome" asp-for="Nome" value="">
+				</div>
+				<div class="mb-4">
+					<label class="mb-1 text-dark">Telefone <small>(whatsapp)</small></label>
+					<input type="tel" id="Phone" name="Phone" ng-class="clsErrorPhone" ng-model="objPhone" class="form-control" placeholder="Telefone" asp-for="Telefone" value="">
+				</div>				
+				<div class="mb-4">
+					<label class="mb-1 text-dark">E-mail</label>
+					<input type="email" id="txtEmailAddress" ng-class="clsErrorEmailAddress" ng-model="objEmailAddress" name="txtEmailAddress" class="form-control" placeholder="E-mail" value="" />
+				</div>
+				<div class="mb-4 position-relative">
+					<label class="mb-1 text-dark">Senha</label>
+					<input type="password" id="Password" name="Password" ng-class="clsErrorPassword" ng-model="objPassword" class="form-control" placeholder="Senha" asp-for="Password" value="">
+					<span class="show-pass eye">
+
+						<i class="fa fa-eye-slash"></i>
+						<i class="fa fa-eye"></i>
+
+					</span>
+				</div>
+			 
+				<div class="form-row d-flex justify-content-between mt-4 mb-2">
+					<div class="mb-4">
+						@* <div class="form-check custom-checkbox mb-3">
+							<input type="checkbox" class="form-check-input" id="customCheckBox1" required="">
+							<label class="form-check-label" for="customCheckBox1">Remember my preference</label>
+						</div> *@
+					</div>
+					<div class="mb-4">
+						<a href="@Url.Action("LoginProfessor","Access")" class="btn-link text-primary">Logar no sistema</a>
+					</div>
+				</div>
+				<div class="text-center mb-4">
+					<button type="button" ng-click="validateForm()" class="btn btn-primary btn-block">Cadastrar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+@section scripts
+{
+	<script type="text/javascript" src="@Url.Content("~/scripts/Access.RegisterProfessor.js?t=" + Guid.NewGuid())"></script>
+}
