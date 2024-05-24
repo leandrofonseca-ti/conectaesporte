@@ -50,3 +50,5 @@ jobs:
           #package: ${{ env.WEBAPP_PACKAGE_PATH }}
           server-dir: ${{ env.SERVER_PATH }}
           #delete: true
+          exclude: |            
+            appsettings.json
