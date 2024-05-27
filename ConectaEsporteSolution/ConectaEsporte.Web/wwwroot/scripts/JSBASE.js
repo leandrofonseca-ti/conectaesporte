@@ -14,7 +14,7 @@ window.odometerOptions = {
 
 JSBASE = {
 
-    ROOT_URL: "https://localhost:7261/",
+    ROOT_URL: $("#hdnRoot").val(),
     AJAX_POST: function (action, controller, area, json, async, callbackSucesso) {
 
         var asyncTemp = true;
