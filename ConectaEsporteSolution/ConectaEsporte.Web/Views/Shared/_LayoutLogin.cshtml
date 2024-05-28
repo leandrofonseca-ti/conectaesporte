@@ -41,7 +41,18 @@
     <input type="hidden" id="hdnUserEmail" value="@variables.UserEmail" />
     <input type="hidden" id="hdnUserPicture" value="@variables.UserPicture" />
     <input type="hidden" id="hdnUserProfileId" value="@variables.UserProfileId" />
-
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
     <div class="authincation h-100">
         <div class="container-fluid h-100">
             @RenderBody()
