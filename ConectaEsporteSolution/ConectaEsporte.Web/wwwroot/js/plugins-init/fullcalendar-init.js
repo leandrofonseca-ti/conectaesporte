@@ -1,7 +1,7 @@
 
 "use strict"
 
-function fullCalender(){
+function fullCalendar(){
 	
 	/* initialize the external events
 		-----------------------------------------------------------------*/
@@ -123,7 +123,7 @@ function fullCalender(){
 	
 jQuery(window).on('load',function(){
 	setTimeout(function(){
-		fullCalender();	
+		fullCalendar();	
 	}, 1000);
 	
 	

@@ -34,6 +34,9 @@
 	<!-- Style css -->
 	<link href="@Url.Content("~/css/style.css")" rel="stylesheet">
 
+
+	@RenderSection("Styles", false)
+
 </head>
 <body ng-controller="MasterController" data-typography="poppins" data-theme-version="light" data-layout="vertical" data-nav-headerbg="black" data-headerbg="color_1">
 	@{
@@ -1369,11 +1372,11 @@
 		<!--**********************************
 			Footer start
 		***********************************-->
-		<div class="footer">
+		@* <div class="footer">
 			<div class="copyright">
-				<p>Copyright © Developed by <a href="https://dexignzone.com/" target="_blank">DexignZone</a> 2023</p>
+				<p>Copyright © Developed by <a href="https://leandroti.com/" target="_blank">LeandroTi</a> 2023</p>
 			</div>
-		</div>
+		</div> *@
 		<!--**********************************
 			Footer end
 		***********************************-->
