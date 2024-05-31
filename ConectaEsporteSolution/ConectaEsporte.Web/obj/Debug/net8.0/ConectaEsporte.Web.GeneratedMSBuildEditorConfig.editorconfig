@@ -1,11 +1,19 @@
 is_global = true
 build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ConectaEsporte.Web
 build_property.RootNamespace = ConectaEsporte.Web
@@ -17,6 +25,30 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Web
 build_property._RazorSourceGeneratorDebug = 
+
+[C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Areas/Master/Views/FinanceiroMaster/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWFzdGVyXFZpZXdzXEZpbmFuY2Vpcm9NYXN0ZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Areas/Professor/Views/CadastroAluno/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUHJvZmVzc29yXFZpZXdzXENhZGFzdHJvQWx1bm9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Areas/Professor/Views/CadastroHorario/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUHJvZmVzc29yXFZpZXdzXENhZGFzdHJvSG9yYXJpb1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Areas/Professor/Views/CadastroTurma/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUHJvZmVzc29yXFZpZXdzXENhZGFzdHJvVHVybWFcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Areas/Professor/Views/FinanceiroProfessor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUHJvZmVzc29yXFZpZXdzXEZpbmFuY2Vpcm9Qcm9mZXNzb3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Areas/Professor/Views/NotificacaoProfessor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUHJvZmVzc29yXFZpZXdzXE5vdGlmaWNhY2FvUHJvZmVzc29yXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Projetos/GitHub/conectaesporte/ConectaEsporteSolution/ConectaEsporte.Web/Views/Access/ForgotAluno.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzXEZvcmdvdEFsdW5vLmNzaHRtbA==

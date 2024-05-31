@@ -11,10 +11,10 @@ var W3Crm = function(){
 		}
 	}
 	var handlePreloader = function(){
-		setTimeout(function() {
-			jQuery('#preloader').remove();
-			$('#main-wrapper').addClass('show');
-		},800);	
+		//setTimeout(function() {
+		//	jQuery('#preloader').remove();
+		//	$('#main-wrapper').addClass('show');
+		//},800);	
 		
 	}
 	var handleImageSelect = function(){
@@ -342,6 +342,8 @@ var W3Crm = function(){
 		if(jQuery("#datetimepicker1").length>0) {
 			$('#datetimepicker1').datetimepicker({
 				inline: true,
+				format: 'dd/mm/yyyy',
+				locale: 'pt-BR'
 			});
 		}
 	}

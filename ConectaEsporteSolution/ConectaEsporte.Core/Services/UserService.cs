@@ -57,6 +57,32 @@ namespace ConectaEsporte.Core.Services
 			return null;
 		}
 
+
+		public async Task<UserEntity> Login(int userid, EnumProfile profile)
+		{
+
+			var entity =
+					await (from usr in _dbContext.user
+						   join usrprof in _dbContext.userprofile on usr.Id equals usrprof.UserId
+						   join prof in _dbContext.profile on usrprof.ProfileId equals prof.Id
+						   where (prof.Id == profile.GetHashCode()) && usr.Id == userid
+						   select new UserEntity
+						   {
+							   Created_Date = usr.Created_Date,
+							   Email = usr.Email,
+							   Name = usr.Name,
+							   Id = usr.Id,
+							   Phone = usr.Phone,
+							   Picture = usr.Picture
+						   }).FirstOrDefaultAsync();
+
+			if (entity != null && entity.Id > 0)
+			{
+				entity.Profiles = await LoadProfiles(entity.Id);
+				return entity;
+			}
+			return null;
+		}
 		public async Task<List<Profile>> LoadProfiles(int id)
 		{
 

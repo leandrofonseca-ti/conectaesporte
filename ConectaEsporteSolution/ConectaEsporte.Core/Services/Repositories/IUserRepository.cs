@@ -10,6 +10,7 @@ namespace ConectaEsporte.Core.Services.Repositories
 	public interface IUserRepository
 	{
 		Task<UserEntity> Login(string email, string password, EnumProfile profile);
+		Task<UserEntity> Login(int userid, EnumProfile profile);
 		Task<bool> ForgotPassword(string email);
 
 		Task<List<User>> GetUsers();

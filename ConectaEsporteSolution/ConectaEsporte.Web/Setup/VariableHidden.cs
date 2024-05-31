@@ -59,7 +59,28 @@ namespace ConectaEsporte.Web.Setup
 			}
 		}
 
-		public string UserPicture
+
+        public int UserId
+        {
+            get
+            {
+                if (!IsAuthenticated)
+                    return 0;
+
+                ClaimsCookie cc = new ClaimsCookie(_httpContext.User, _httpContext);
+                var objString = cc.GetValue(ClaimsCookie.KeyName.UserId);
+                return Int32.Parse(objString);
+            }
+            set
+            {
+                ClaimsCookie cc = new ClaimsCookie(_httpContext.User, _httpContext);
+                ClaimsCookie.KeyName[] keys = new[] { ClaimsCookie.KeyName.UserId };
+                String[] values = new[] { value.ToString() };
+                cc.SetValue(keys, values);
+            }
+        }
+
+        public string UserPicture
 		{
 			get
 			{

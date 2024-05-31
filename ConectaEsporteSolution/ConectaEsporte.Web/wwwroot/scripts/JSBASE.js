@@ -16,7 +16,7 @@ JSBASE = {
 
     ROOT_URL: $("#hdnRoot").val(),
     AJAX_POST: function (action, controller, area, json, async, callbackSucesso) {
-
+        JSBASE.LOADING_SHOW();
         var asyncTemp = true;
         if (async !== null && async !== undefined) {
             asyncTemp = async;
@@ -71,10 +71,12 @@ JSBASE = {
                         tapToDismiss: !1
                     });
                     console.log("ERROR JSBASE");
+                    JSBASE.LOADING_HIDE();
                     return;
                 }
                 else {
                     console.log("SUCCESS JSBASE");
+                    JSBASE.LOADING_HIDE();
                     if (jQuery.isFunction(callbackSucesso)) {
                         callbackSucesso(resposta);
                     }
@@ -88,6 +90,7 @@ JSBASE = {
                 //    type: "error",
                 //    confirmButtonClass: "btn-danger"
                 //});
+                JSBASE.LOADING_HIDE();
             }
         });
     },
@@ -133,5 +136,39 @@ JSBASE = {
                 tapToDismiss: !1
             });
         }
+    },
+
+
+
+    LOADING_SHOW: function () {
+        $('#preloader').fadeIn("slow");
+        $('#main-wrapper').fadeOut("slow");
+    },
+    LOADING_HIDE: function () {
+        $('#preloader').fadeOut("slow");
+        $('#main-wrapper').fadeIn("slow");
+    },
+    SET_PROFILE: function (profileid) {
+
+    
+
+
+        var userid = $("#hdnUserId").val();
+        var json = [];
+        json.push({ "name": "userid", "value": userid });
+        json.push({ "name": "profileid", "value": profileid });
+
+        JSBASE.AJAX_POST("SetProfile", "Dashboard", "", json, true, function (resposta) {
+            
+            if (resposta.data) {
+                JSBASE.SHOW_MESSAGE("Atenção", "Alteração de perfil realizada com sucesso :)", "success");
+                window.open(resposta.redirect, "_parent");
+            }
+            else {
+                JSBASE.SHOW_MESSAGE("Atenção", "Dados incorretos, não foi possível realizar ação :(", "error");
+            }
+        });
     }
+
+
 };

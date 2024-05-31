@@ -33,6 +33,8 @@
             json.push({ "name": "Email", "value": $scope.objEmailAddress });
             json.push({ "name": "Password", "value": $scope.objPassword });
             json.push({ "name": "KeepLogin", "value": true });
+
+        
             JSBASE.AJAX_POST("LoginAluno", "Access", "", json, true, function (resposta) {
                 console.log(JSON.stringify(resposta));
                 if (resposta.data) {
@@ -42,7 +44,7 @@
                 else {
                     JSBASE.SHOW_MESSAGE("Atenção", "Dados incorretos, não foi possível realizar o login :(", "error");
                 }
-
+                JSBASE.LOADING_HIDE();
             });
             return true;
         }

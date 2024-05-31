@@ -86,6 +86,7 @@ namespace ConectaEsporte.Web.Setup
 			UserProfileId = 3,
 			UserPicture = 4,
 			UserProfiles = 5,
-		}
+            UserId = 6,
+        }
 	}
 }

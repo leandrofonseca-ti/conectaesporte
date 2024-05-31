@@ -36449,6 +36449,10 @@
       "PackagePath": "staticwebassets\\images\\login.png"
     },
     {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\images\\logo-full-aluno.png",
+      "PackagePath": "staticwebassets\\images\\logo-full-aluno.png"
+    },
+    {
       "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\images\\logo-full.png",
       "PackagePath": "staticwebassets\\images\\logo-full.png"
     },
@@ -37093,8 +37097,36 @@
       "PackagePath": "staticwebassets\\scripts\\Access.RegisterProfessor.js"
     },
     {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Dashboard.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Dashboard.Index.js"
+    },
+    {
       "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\JSBASE.js",
       "PackagePath": "staticwebassets\\scripts\\JSBASE.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Master\\FinanceiroMaster.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Master\\FinanceiroMaster.Index.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Professor\\CadastroAluno.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Professor\\CadastroAluno.Index.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Professor\\CadastroHorario.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Professor\\CadastroHorario.Index.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Professor\\CadastroTurma.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Professor\\CadastroTurma.Index.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Professor\\FinanceiroProfessor.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Professor\\FinanceiroProfessor.Index.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scripts\\Professor\\NotificacaoProfessor.Index.js",
+      "PackagePath": "staticwebassets\\scripts\\Professor\\NotificacaoProfessor.Index.js"
     },
     {
       "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\scss\\_preloader.scss",
@@ -38267,6 +38299,10 @@
     {
       "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\vendor\\bootstrap-datetimepicker\\js\\bootstrap-datetimepicker.min.js",
       "PackagePath": "staticwebassets\\vendor\\bootstrap-datetimepicker\\js\\bootstrap-datetimepicker.min.js"
+    },
+    {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\vendor\\bootstrap-datetimepicker\\js\\moment-with-locales.js",
+      "PackagePath": "staticwebassets\\vendor\\bootstrap-datetimepicker\\js\\moment-with-locales.js"
     },
     {
       "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\vendor\\bootstrap-datetimepicker\\js\\moment.js",

@@ -7,7 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConectaEsporte.Core\ConectaEsporte.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Aluno\Controllers\" />
+    <Folder Include="Areas\Aluno\Data\" />
+    <Folder Include="Areas\Aluno\Models\" />
+    <Folder Include="Areas\Aluno\Views\" />
+    <Folder Include="Areas\Master\Data\" />
+    <Folder Include="Areas\Master\Models\" />
+    <Folder Include="Areas\Professor\Data\" />
+    <Folder Include="Areas\Professor\Models\" />
+    <Folder Include="wwwroot\scripts\Aluno\" />
   </ItemGroup>
 
 </Project>

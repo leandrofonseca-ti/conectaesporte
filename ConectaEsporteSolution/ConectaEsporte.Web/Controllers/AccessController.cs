@@ -117,7 +117,8 @@ namespace ConectaSolution.Controllers
 					ClaimsCookie.KeyName.UserName,
 					ClaimsCookie.KeyName.UserPicture,
 					ClaimsCookie.KeyName.UserProfiles,
-					ClaimsCookie.KeyName.UserProfileId
+					ClaimsCookie.KeyName.UserProfileId,
+					ClaimsCookie.KeyName.UserId,
 				};
 
 				String[] values = new[] {
@@ -125,7 +126,8 @@ namespace ConectaSolution.Controllers
 					result.Name,
 					result.Picture,
 					String.Join(",", result.Profiles.Select(y => y.Id)),
-					result.Profiles.FirstOrDefault().Id.ToString()};
+					result.Profiles.FirstOrDefault().Id.ToString(),
+					result.Id.ToString()};
 
 				cc.SetValue(keys, values);
 
@@ -158,7 +160,8 @@ namespace ConectaSolution.Controllers
 					ClaimsCookie.KeyName.UserName,
 					ClaimsCookie.KeyName.UserPicture,
 					ClaimsCookie.KeyName.UserProfiles,
-					ClaimsCookie.KeyName.UserProfileId
+					ClaimsCookie.KeyName.UserProfileId,
+					ClaimsCookie.KeyName.UserId,
 				};
 
 				String[] values = new[] {
@@ -166,7 +169,8 @@ namespace ConectaSolution.Controllers
 					result.Name,
 					result.Picture,
 					String.Join(",", result.Profiles.Select(y => y.Id)),
-					result.Profiles.FirstOrDefault().Id.ToString()};
+					result.Profiles.FirstOrDefault().Id.ToString(),
+					result.Id.ToString()};
 
 				cc.SetValue(keys, values);
 
@@ -199,7 +203,8 @@ namespace ConectaSolution.Controllers
 					ClaimsCookie.KeyName.UserName,
 					ClaimsCookie.KeyName.UserPicture,
 					ClaimsCookie.KeyName.UserProfiles,
-					ClaimsCookie.KeyName.UserProfileId
+					ClaimsCookie.KeyName.UserProfileId,
+					ClaimsCookie.KeyName.UserId,
 				};
 
 				String[] values = new[] {
@@ -207,7 +212,8 @@ namespace ConectaSolution.Controllers
 					result.Name,
 					result.Picture,
 					String.Join(",", result.Profiles.Select(y => y.Id)),
-					result.Profiles.FirstOrDefault().Id.ToString()};
+					result.Profiles.FirstOrDefault().Id.ToString(),
+					result.Id.ToString()};
 
 				cc.SetValue(keys, values);
 
@@ -283,7 +289,8 @@ namespace ConectaSolution.Controllers
 					ClaimsCookie.KeyName.UserName,
 					ClaimsCookie.KeyName.UserPicture,
 					ClaimsCookie.KeyName.UserProfiles,
-					ClaimsCookie.KeyName.UserProfileId
+					ClaimsCookie.KeyName.UserProfileId,
+					ClaimsCookie.KeyName.UserId,
 				};
 
 					String[] values = new[] {
@@ -291,7 +298,8 @@ namespace ConectaSolution.Controllers
 					result.Name,
 					result.Picture,
 					String.Join(",", result.Profiles.Select(y => y.Id)),
-					result.Profiles.FirstOrDefault().Id.ToString()};
+					result.Profiles.FirstOrDefault().Id.ToString(),
+					result.Id.ToString()};
 
 					cc.SetValue(keys, values);
 
@@ -357,7 +365,8 @@ namespace ConectaSolution.Controllers
 					ClaimsCookie.KeyName.UserName,
 					ClaimsCookie.KeyName.UserPicture,
 					ClaimsCookie.KeyName.UserProfiles,
-					ClaimsCookie.KeyName.UserProfileId
+					ClaimsCookie.KeyName.UserProfileId,
+					ClaimsCookie.KeyName.UserId,
 				};
 
 					String[] values = new[] {
@@ -365,7 +374,8 @@ namespace ConectaSolution.Controllers
 					result.Name,
 					result.Picture,
 					String.Join(",", result.Profiles.Select(y => y.Id)),
-					result.Profiles.FirstOrDefault().Id.ToString()};
+					result.Profiles.FirstOrDefault().Id.ToString(),
+					result.Id.ToString()};
 
 					cc.SetValue(keys, values);
 

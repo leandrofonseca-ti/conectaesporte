@@ -50,12 +50,20 @@ app.UseAuthorization();
 if (_domain.Contains("professor"))
 {
     app.MapControllerRoute(
+    name: "areaRoute",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+    app.MapControllerRoute(
    name: "default",
    pattern: "{controller=Access}/{action=LoginProfessor}/{id?}");
     
 }
 else
 {
+
+    app.MapControllerRoute(
+        name: "areaRoute",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
     app.MapControllerRoute(
          name: "default",
          pattern: "{controller=Access}/{action=LoginAluno}/{id?}");

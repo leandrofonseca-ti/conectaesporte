@@ -841,7 +841,7 @@
 		
 	jQuery(window).on('load',function(){
 		setTimeout(function(){
-			dzChartlist.load();
+			//dzChartlist.load();
 		}, 1000); 
 		
 	});
