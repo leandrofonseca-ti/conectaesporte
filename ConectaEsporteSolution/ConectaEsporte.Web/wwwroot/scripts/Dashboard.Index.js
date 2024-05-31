@@ -48,7 +48,7 @@ function fullCalendar() {
 		headerToolbar: {
 			left: 'prev,next today',
 			center: 'title',
-			right: 'dayGridMonth'//,timeGridWeek,timeGridDay'
+			right: 'dayGridMonth,timeGridDay'//,timeGridWeek,timeGridDay'
 		},
 
 		selectable: true,
@@ -89,8 +89,8 @@ function fullCalendar() {
 			}
 		},
 		initialDate: '2024-05-31',
-		weekNumbers: true,
-		navLinks: true, // can click day/week names to navigate views
+		weekNumbers: false,
+		navLinks: false, // can click day/week names to navigate views
 		editable: false,
 		selectable: true,
 		nowIndicator: true,
