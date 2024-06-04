@@ -6,7 +6,7 @@ on:
 name: Deploy Web
 
 env:
-  GITHUB_PATH: "./landing/"
+  GITHUB_PATH: "./ConectaEsporteSolution/landing/"
   SERVER_PATH: "./conectaesporte.com/"  
 jobs:
   web-deploy:
