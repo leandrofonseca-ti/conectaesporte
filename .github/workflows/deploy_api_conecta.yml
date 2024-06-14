@@ -4,15 +4,15 @@ on:
    #   - main
   workflow_dispatch:
   
-name: Deploy Web (.NET) - Aluno
+name: Deploy API (.NET)
 
 env:
   VERSION_NAME: WebProd
   WEBAPP_PACKAGE_PATH: ./publish
-  SERVER_PATH: "./aluno.conectaesporte.com/"
+  SERVER_PATH: "./api.conectaesporte.com/"
   SOLUTION_APP: .\ConectaEsporteSolution\ConectaEsporteSolution.sln
-  PROJECT_APP: .\ConectaEsporteSolution\ConectaEsporte.Web\ConectaEsporte.Web.csproj
-  PROJECT_RELEASE: "./ConectaEsporteSolution/ConectaEsporte.Web/bin/Release/"
+  PROJECT_APP: .\ConectaEsporteSolution\ConectaEsporte.Web\ConectaEsporte.API.csproj
+  PROJECT_RELEASE: "./ConectaEsporteSolution/ConectaEsporte.API/bin/Release/"
 jobs:
   web-deploy:
     name: Deploy
@@ -32,13 +32,8 @@ jobs:
       - name: 6 🚚 Construir e empacotar aplicacao
         run: msbuild ${{ env.SOLUTION_APP }} '/p:Configuration=Release' -t:rebuild 
       
-      - name: 7 🚚 Publish app for deploy
-        # run: dotnet publish ${{ env.PROJECT_APP }} --no-build --output ${{ env.WEBAPP_PACKAGE_PATH }}
+      - name: 7 🚚 Publish app for deploy        
         run: dotnet publish ${{ env.PROJECT_APP }} --no-build --output ${{ env.PROJECT_RELEASE }}
-    #  - name: Move ZIP to S3Bucket
-    #    run: |
-    #      aws s3 cp package.zip s3://esteiradigitalfront/EsteiraDigital/${{ env.VERSION_NAME }}.zip
-
         
       - name: 8 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -46,8 +41,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }} 
           username: ${{ secrets.FTP_USER }} 
           password: ${{ secrets.FTP_PASSWORD }} 
-          local-dir: ${{ env.PROJECT_RELEASE }}
-          #package: ${{ env.WEBAPP_PACKAGE_PATH }}
+          local-dir: ${{ env.PROJECT_RELEASE }}          
           server-dir: ${{ env.SERVER_PATH }}
           #delete: true
           exclude: |            
