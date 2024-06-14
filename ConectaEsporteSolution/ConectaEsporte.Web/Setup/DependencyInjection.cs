@@ -25,12 +25,13 @@ namespace ConectaEsporte.Web.Setup
 
 			// Repositories.
 			services.AddScoped<IUserRepository, UserService>();
-			//services.AddLazySingleton<ISomething, Something>();
-			// Helpers
+            services.AddScoped<IMercadoPago, MercadoPagoService>();
+            //services.AddLazySingleton<ISomething, Something>();
+            // Helpers
 
-			// Services.
+            // Services.
 
-			return services;
+            return services;
 
 		}
 

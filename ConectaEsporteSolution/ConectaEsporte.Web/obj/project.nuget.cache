@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "n1TPoRj2y5zGzIRr9Tezcphwt+y5X7tWdMHyfquXe+RpA1L5lA4Jycm+Gf0pfWs72kTrfW1Y3JZqJFhgDce8/w==",
+  "dgSpecHash": "MRqE9fql+NaLCCdA72WkU9kmPUe6tQhVb+a9pPsFKVVn1iDUPRLNnJfZzPQ35E/kAqB962hTjaEX9JdGBJ9XtQ==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\ConectaEsporte.Web.csproj",
   "expectedPackageFiles": [
@@ -54,6 +54,7 @@
     "C:\\Users\\leand\\.nuget\\packages\\humanizer.core.zh-cn\\2.14.1\\humanizer.core.zh-cn.2.14.1.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\humanizer.core.zh-hans\\2.14.1\\humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\humanizer.core.zh-hant\\2.14.1\\humanizer.core.zh-hant.2.14.1.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\mercadopago-sdk\\2.3.8\\mercadopago-sdk.2.3.8.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authorization\\8.0.4\\microsoft.aspnetcore.authorization.8.0.4.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.components\\8.0.4\\microsoft.aspnetcore.components.8.0.4.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\8.0.4\\microsoft.aspnetcore.components.analyzers.8.0.4.nupkg.sha512",

@@ -1,0 +1,6 @@
+@ConectaEsporte.API_HostAddress = http://localhost:5105
+
+GET {{ConectaEsporte.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

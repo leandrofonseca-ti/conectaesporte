@@ -36473,6 +36473,10 @@
       "PackagePath": "staticwebassets\\images\\logo\\logofull-white.png"
     },
     {
+      "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\images\\logo_transparente.png",
+      "PackagePath": "staticwebassets\\images\\logo_transparente.png"
+    },
+    {
       "Id": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Web\\wwwroot\\images\\logo_transparente_fast2.png",
       "PackagePath": "staticwebassets\\images\\logo_transparente_fast2.png"
     },

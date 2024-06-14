@@ -556,6 +556,18 @@
           }
         }
       },
+      "mercadopago-sdk/2.3.8": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "System.Configuration.ConfigurationManager": "7.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/MercadoPago.dll": {
+            "assemblyVersion": "2.3.8.0",
+            "fileVersion": "2.3.8.0"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authorization/8.0.4": {
         "dependencies": {
           "Microsoft.AspNetCore.Metadata": "8.0.4",
@@ -1685,7 +1697,8 @@
       "ConectaEsporte.Core/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.4",
-          "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
+          "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
+          "mercadopago-sdk": "2.3.8"
         },
         "runtime": {
           "ConectaEsporte.Core.dll": {}
@@ -2048,6 +2061,13 @@
       "sha512": "sha512-VIXB7HCUC34OoaGnO3HJVtSv2/wljPhjV7eKH4+TFPgQdJj2lvHNKY41Dtg0Bphu7X5UaXFR4zrYYyo+GNOjbA==",
       "path": "humanizer.core.zh-hant/2.14.1",
       "hashPath": "humanizer.core.zh-hant.2.14.1.nupkg.sha512"
+    },
+    "mercadopago-sdk/2.3.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W41OcPd5ha0H0dwfYQHWTDM/445Uoac4LMpOzc2i9eZx0BoycTAqSFOvxWk90dYix2ZaVifcAPUCpESGXJDrqQ==",
+      "path": "mercadopago-sdk/2.3.8",
+      "hashPath": "mercadopago-sdk.2.3.8.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authorization/8.0.4": {
       "type": "package",

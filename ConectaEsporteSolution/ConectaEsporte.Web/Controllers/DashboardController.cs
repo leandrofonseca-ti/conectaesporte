@@ -15,10 +15,14 @@ namespace ConectaSolution.Controllers
 	{
 
 		private readonly IUserRepository _userRepository;
-		public DashboardController(IUserRepository userRepository)
+
+        private readonly IMercadoPago _mercadoPagoRepository;
+        public DashboardController(IUserRepository userRepository, IMercadoPago mercadoPagoRepository)
 		{
 			_userRepository = userRepository;
-		}
+			_mercadoPagoRepository = mercadoPagoRepository;
+
+        }
 
 
 		[Authorize]
@@ -29,7 +33,9 @@ namespace ConectaSolution.Controllers
 			//if (claimUser.Identity.IsAuthenticated)
 			//	return RedirectToAction("Index", "Dashboard");
 
-			return View();
+			//var pm = _mercadoPagoRepository.SendPaymentPix();
+
+            return View();
 		}
 
 

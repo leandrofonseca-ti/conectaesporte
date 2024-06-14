@@ -17,7 +17,10 @@ namespace ConectaEsporte.Core.Models
 		public string Email { get; set; }
 		public string Password { get; set; }
 
-		public DateTime Created_Date { get; set; }
+        public string Fcm { get; set; }
+        public string KeyMobile { get; set; }
+
+        public DateTime Created_Date { get; set; }
 		//public List<Profile> Profiles { get; set; } = new List<Profile>();
 	}
 

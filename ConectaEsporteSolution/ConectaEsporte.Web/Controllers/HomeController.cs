@@ -29,5 +29,27 @@ namespace ConectaSolution.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public IActionResult ReturnEventPayment()
+        {
+            var responseString = Request.Form.ToString(); 
+            Console.WriteLine(responseString);
+            Response.WriteAsync(responseString);
+            
+            return View();
+        }
+
+
+
+        [HttpGet]
+        public IActionResult ReturnEventPayment(int id)
+        {
+            var responseString = Request.Form != null ? Request.Form.ToString() : "";
+            Console.WriteLine(responseString);
+            Response.WriteAsync(responseString);
+
+            return View();
+        }
     }
 }
