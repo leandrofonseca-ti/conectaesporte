@@ -123,7 +123,7 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpGet("Authenticate/GetPayments")]
+        [HttpGet("GetPayments")]
         public async Task<IActionResult> GetPayments(UserModel user)
         {
 
@@ -156,7 +156,7 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpGet("Authenticate/GetNotifications")]
+        [HttpGet("GetNotifications")]
         public async Task<IActionResult> GetNotifications(UserModel user)
         {
 
