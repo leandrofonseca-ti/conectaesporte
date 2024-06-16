@@ -124,7 +124,7 @@ namespace ConectaEsporte.API.Controllers
 
         [Authorize]
         [HttpGet("GetPayments")]
-        public async Task<IActionResult> GetPayments(UserModel user)
+        public async Task<IActionResult> GetPayments(LoginMailModel user)
         {
 
             var json = new LargeJsonResult();
@@ -148,7 +148,7 @@ namespace ConectaEsporte.API.Controllers
                     Created = new DateTime(2024, 05, 01)
                 },
                 UserEmail = user.Email,
-                UserId = user.Id,
+                UserId = 1000,
             };
             return json;
         }
@@ -157,7 +157,7 @@ namespace ConectaEsporte.API.Controllers
 
         [Authorize]
         [HttpGet("GetNotifications")]
-        public async Task<IActionResult> GetNotifications(UserModel user)
+        public async Task<IActionResult> GetNotifications(LoginMailModel user)
         {
 
             var json = new LargeJsonResult();

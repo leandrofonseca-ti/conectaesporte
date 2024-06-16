@@ -11,4 +11,13 @@ namespace ConectaEsporte.API.Models
         [Required]
         public string Password { get; set; }
     }
+
+
+    [Serializable]
+    public class LoginMailModel
+    {
+        [Required]
+        public string Email { get; set; }
+
+    }
 }
