@@ -1,4 +1,5 @@
-﻿using ConectaEsporte.Core.Models;
+﻿using ConectaEsporte.Core.Helper;
+using ConectaEsporte.Core.Models;
 
 namespace ConectaEsporte.API.Models
 {
@@ -12,7 +13,7 @@ namespace ConectaEsporte.API.Models
 
         public PlanUser PlanSelected { get; set; } = new PlanUser();
 
-        public List<Plan> Plans { get; set; } = new List<Plan>();
+        public List<PlanEntity> Plans { get; set; } = new List<PlanEntity>();
 
         public bool Active {  get; set; }
 

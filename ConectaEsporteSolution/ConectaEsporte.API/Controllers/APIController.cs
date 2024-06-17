@@ -132,11 +132,11 @@ namespace ConectaEsporte.API.Controllers
         {
             var json = new LargeJsonResult();
 
-            var resultPlan = await _serviceRepository.ListPlan();
+            var resultPlanGroup = await _serviceRepository.ListPlanGroup();
 
             var result = await _serviceRepository.GetPlanUser(user.Email);
 
-
+   
 
             var active = false;
             var willexpire = false;
@@ -155,7 +155,7 @@ namespace ConectaEsporte.API.Controllers
 
                 json.Value = new PaymentModel
                 {
-                    Plans = resultPlan,
+                    Plans = resultPlanGroup,
                     PlanSelected = result,
                     UserEmail = user.Email,
                     UserId = result.UserId,
@@ -168,7 +168,7 @@ namespace ConectaEsporte.API.Controllers
             {
                 json.Value = new PaymentModel
                 {
-                    Plans = resultPlan,
+                    Plans = resultPlanGroup,
                     PlanSelected = null,
                     UserEmail = user.Email,
                     UserId = 0,

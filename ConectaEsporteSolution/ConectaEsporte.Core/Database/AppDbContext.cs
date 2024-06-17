@@ -1,11 +1,12 @@
-﻿using ConectaEsporte.Core.Models;
+﻿using ConectaEsporte.Core.Helper;
+using ConectaEsporte.Core.Models;
 using Microsoft.Extensions.Configuration;
 using System.Numerics;
 using System.Reflection.Metadata;
 
 namespace ConectaEsporte.Core.Database
 {
-	public interface IAppDbContext : IDisposable
+    public interface IAppDbContext : IDisposable
 	{
 		  DbSet<User> user { get; set; }
 		  DbSet<Profile> profile { get; set; }
@@ -18,6 +19,7 @@ namespace ConectaEsporte.Core.Database
 		public DbSet<User> user { get; set; }
         public DbSet<Notification> notification { get; set; }
         public DbSet<Plan> plan { get; set; }
+        public DbSet<PlanGroup> plangroup { get; set; }
         public DbSet<PlanUser> planuser { get; set; }
         public DbSet<Checkin> checkin { get; set; }
         public DbSet<Profile> profile { get; set; }
