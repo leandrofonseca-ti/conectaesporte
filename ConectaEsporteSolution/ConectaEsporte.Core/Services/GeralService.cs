@@ -1,4 +1,5 @@
 ﻿using ConectaEsporte.Core.Database;
+using ConectaEsporte.Core.Helper;
 using ConectaEsporte.Core.Models;
 using ConectaEsporte.Core.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +44,7 @@ namespace ConectaEsporte.Core.Services
         {
             var entity = await _dbContext.notification.Where(t => t.Id == id).SingleOrDefaultAsync();
 
-            if(entity != null)
+            if (entity != null)
             {
                 _dbContext.Remove(entity);
                 _dbContext.SaveChanges();
@@ -60,12 +61,45 @@ namespace ConectaEsporte.Core.Services
 
         public async Task<List<Plan>> ListPlan()
         {
-            return await _dbContext.plan.Where(t=>t.Active == true).OrderBy(t => t.Order).ToListAsync();
+
+            //var query = (from groups in _dbContext.plangroup
+            //             join plans in _dbContext.plan on groups.Id equals plans.GroupId                         
+            //             select plans).ToListAsync();
+
+
+            return await _dbContext.plan.Where(t => t.Active == true).OrderBy(t => t.Order).ToListAsync();
+        }
+
+
+        public async Task<List<PlanEntity>> ListPlanGroup()
+        {
+            var query = (from groups in _dbContext.plangroup
+                         join plans in _dbContext.plan on groups.Id equals plans.GroupId
+                         where plans.Active == true && groups.Active == true
+                         select new PlanEntity()
+                         {
+                             Active = plans.Active,
+                             Description = plans.Description,
+                             Id = plans.Id,
+                             Name = plans.Name,
+                             Order = plans.Order,
+                             Price = plans.Price,
+                             ProfileIds = groups.ProfileIds,
+                             GroupDescription = groups.Description,
+                             GroupId = groups.Id,
+                             GroupName = groups.Name,
+                             GroupOrder = groups.Order,
+                         })
+                         .OrderBy(y => y.GroupOrder)
+                         .ThenBy(y => y.Order)
+                         .ToListAsync();
+
+            return query.Result;
         }
 
         public async Task<PlanUser> GetPlanUser(string email)
         {
-            var query =  (from users in _dbContext.user
+            var query = (from users in _dbContext.user
                          join plans in _dbContext.planuser on users.Id equals plans.UserId
                          where users.Email == email
                          select plans).ToListAsync();
@@ -76,7 +110,7 @@ namespace ConectaEsporte.Core.Services
         public bool AddNotification(Notification entity)
         {
             _dbContext.notification.Add(entity);
-             _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
             return true;
         }
     }
