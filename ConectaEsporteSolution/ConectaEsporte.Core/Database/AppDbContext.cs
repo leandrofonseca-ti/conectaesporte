@@ -1,7 +1,6 @@
-﻿
-
-using ConectaEsporte.Core.Models;
+﻿using ConectaEsporte.Core.Models;
 using Microsoft.Extensions.Configuration;
+using System.Numerics;
 using System.Reflection.Metadata;
 
 namespace ConectaEsporte.Core.Database
@@ -17,7 +16,11 @@ namespace ConectaEsporte.Core.Database
 	{
 		private string connectionString = string.Empty;
 		public DbSet<User> user { get; set; }
-		public DbSet<Profile> profile { get; set; }
+        public DbSet<Notification> notification { get; set; }
+        public DbSet<Plan> plan { get; set; }
+        public DbSet<PlanUser> planuser { get; set; }
+        public DbSet<Checkin> checkin { get; set; }
+        public DbSet<Profile> profile { get; set; }
 		public DbSet<UserProfile> userprofile { get; set; }
 		public AppDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
 		{
@@ -26,7 +29,6 @@ namespace ConectaEsporte.Core.Database
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-
 			optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 			base.OnConfiguring(optionsBuilder);
 		}

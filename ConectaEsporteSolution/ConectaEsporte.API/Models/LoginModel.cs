@@ -20,4 +20,18 @@ namespace ConectaEsporte.API.Models
         public string Email { get; set; }
 
     }
+
+
+
+    [Serializable]
+    public class LoginCheckinModel
+    {
+        [Required]
+        public string Email { get; set; }
+
+        public long Id { get; set; }
+
+        public bool Booked { get; set; }
+
+    }
 }

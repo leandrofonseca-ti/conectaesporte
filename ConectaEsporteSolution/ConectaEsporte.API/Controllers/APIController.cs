@@ -5,6 +5,7 @@ using ConectaEsporte.Core.Services.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,10 +20,12 @@ namespace ConectaEsporte.API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
-        public APIController(IUserRepository userRepository, IConfiguration configuration)
+        private readonly IServiceRepository _serviceRepository;
+        public APIController(IUserRepository userRepository, IConfiguration configuration, IServiceRepository serviceRepository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _serviceRepository = serviceRepository;
         }
 
 
@@ -37,8 +40,9 @@ namespace ConectaEsporte.API.Controllers
             var result = AuthenticateAsync(authentication);
             if (result)
             {
-                var tokenString = BuildToken();
-                response = Ok(new { token = tokenString });
+                var dateTimeExpire = DateTime.Now.AddMinutes(30);
+                var tokenString = BuildToken(dateTimeExpire);
+                response = Ok(new { token = tokenString, expired = dateTimeExpire.ToString("yyyy-MM-dd HH:mm:ss") });
             }
 
             return response;
@@ -57,7 +61,7 @@ namespace ConectaEsporte.API.Controllers
             return result;
         }
 
-        private string BuildToken()
+        private string BuildToken(DateTime dateTimeExpire)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
 
@@ -66,7 +70,7 @@ namespace ConectaEsporte.API.Controllers
             JwtSecurityToken token = new JwtSecurityToken(
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"],
-                expires: DateTime.Now.AddMinutes(30),
+                expires: dateTimeExpire,
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -99,7 +103,7 @@ namespace ConectaEsporte.API.Controllers
             var result = await _userRepository.Login(login.Username, login.Password, Core.EnumProfile.Aluno);
             if (result != null && result.Id > 0)
             {
-                json.Value = new UserModel { Id = result.Id, Name = result.Name, Email = result.Email };
+                json.Value = new UserModel { Id = result.Id, Name = result.Name, Email = result.Email, Picture = result.Picture, Key = result.KeyMobile, Fcm = result.Fcm, Phone = result.Phone };
             }
             return json;
         }
@@ -110,7 +114,7 @@ namespace ConectaEsporte.API.Controllers
         public async Task<IActionResult> SyncLogin(UserModel login)
         {
             var json = new LargeJsonResult();
-            //json.StatusCode = 200;
+         
             var result = await _userRepository.UpdateUserMobile(login.Key, login.Name, login.Email, login.Fcm, login.Phone, login.Picture);
             if (result != null && result.Id > 0)
             {
@@ -126,30 +130,57 @@ namespace ConectaEsporte.API.Controllers
         [HttpGet("GetPayments")]
         public async Task<IActionResult> GetPayments(LoginMailModel user)
         {
-
             var json = new LargeJsonResult();
-            //json.StatusCode = 200;
+
+            var resultPlan = await _serviceRepository.ListPlan();
+
+            var result = await _serviceRepository.GetPlanUser(user.Email);
 
 
-            json.Value = new Payment
+
+            var active = false;
+            var willexpire = false;
+
+
+            if (result != null)
             {
-                OwnerId = 123,
-                Plans = new List<PlanItem>() {
-                 new PlanItem{ Id = 1, Description = "Gratuito",  Price = 0},
-                 new PlanItem{ Id = 2, Description = "Mensal", Price = 150},
-                 new PlanItem{ Id = 3, Description = "Trimestral", Price = 450},
-                 new PlanItem{ Id = 4, Description = "Semestral", Price = 850},
-                 new PlanItem{ Id = 4, Description = "Anual", Price = 1050},
-                },
-
-                PlanSelected = new PlanItem()
+                var dtNow = DateTime.Now;
+                if(result.Created >= dtNow && result.Created <= dtNow)
                 {
-                    Id = 1,
-                    Created = new DateTime(2024, 05, 01)
-                },
-                UserEmail = user.Email,
-                UserId = 1000,
-            };
+                    active = true;
+                }
+
+                var r = dtNow.Subtract(result.Created);
+                willexpire = r.TotalDays <= 7;
+
+                json.Value = new PaymentModel
+                {
+                    Plans = resultPlan,
+                    PlanSelected = result,
+                    UserEmail = user.Email,
+                    UserId = result.UserId,
+                    Active = active,
+                    WillExpire = willexpire,
+                    Id = result.Id,
+                };
+            }
+            else
+            {
+                json.Value = new PaymentModel
+                {
+                    Plans = resultPlan,
+                    PlanSelected = null,
+                    UserEmail = user.Email,
+                    UserId = 0,
+                    Active = active,
+                    WillExpire = willexpire,
+                    Id = 0,
+                };
+            }
+
+          
+
+  
             return json;
         }
 
@@ -159,106 +190,211 @@ namespace ConectaEsporte.API.Controllers
         [HttpGet("GetNotifications")]
         public async Task<IActionResult> GetNotifications(LoginMailModel user)
         {
-
             var json = new LargeJsonResult();
-            //json.StatusCode = 200;
 
+            var resultNotification = _serviceRepository.ListNotification(user.Email).Result;
 
-            json.Value = new List<NotificationModel>()
+            var listResult = new List<NotificationModel>();
+
+            var dtNow = DateTime.Now;
+            var dt7before = dtNow.AddDays(-7);
+            var dtIni = new DateTime(dt7before.Year, dt7before.Month, dt7before.Day, 0, 0, 0);
+
+            foreach (var item in resultNotification.Where(r => r.Created >= dtIni))
             {
-                new NotificationModel()
+                listResult.Add(new NotificationModel
                 {
-                    SenderImage = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60",
-                    SenderEmail = "sender@gmail.com",
-                     ContentId = 1001,
-                     Created = DateTime.Now,
-                      Id = 1,
-                      Text = "Bla blal ablabla ablabalb alab lbabl ",
-                       IsRead = true,
-                       UserEmail = "leandrofonseca.ti@gmail.com",
+                    Created = item.Created,
+                    SenderImage = item.FromPicture,
+                    SenderEmail = item.FromEmail,
+                    SenderName = item.FromName,
+                    CheckinId = item.CheckinId,
+                    IsRead = item.IsRead,
+                    Id = item.Id,
+                    Text = item.Text,
+                    Email = user.Email,
+                });
+            }
 
-                },
-                new NotificationModel()
-                {
-                    SenderImage = "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60",
-                    SenderEmail = "sender2@gmail.com",
-                    ContentId= 1002,
-                     Created = DateTime.Now,
-                      Id= 2,
-                       Text = "Bla blal ablabla ablabalb alab lbabl ",
-                       IsRead= false,
-                        UserEmail = "leandrofonseca.ti@gmail.com",
-                },          new NotificationModel()
-                {
-                    SenderImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60",
-                    SenderEmail = "sender3@gmail.com",
-                     ContentId = 1003,
-                     Created = DateTime.Now,
-                      Id = 1,
-                      Text = "Bla blal ablabla ablabalb alab lbabl ",
-                       IsRead = true,
-                       UserEmail = "leandrofonseca.ti@gmail.com",
+            json.Value = listResult;
 
-                },
-                new NotificationModel()
+            return json;
+        }
+
+
+        [Authorize]
+        [HttpGet("GetDashboard")]
+        public async Task<IActionResult> GetDashboard(LoginMailModel user)
+        {
+            var json = new LargeJsonResult();
+
+            var result = _serviceRepository.GetUserByEmail(user.Email).Result;
+
+            var totalNotification = _serviceRepository.TotalNotification(user.Email).Result;
+
+            var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
+
+            var listDone = new List<CheckinDetailModel>();
+            var listToday = new List<CheckinDetailModel>();
+            var listNext = new List<CheckinDetailModel>();
+
+            var dtNow = DateTime.Now;
+
+            foreach (var item in resultCheckin.Where(r => r.BookedDt < dtNow && r.Booked == true))
+            {
+                listDone.Add(new CheckinDetailModel
                 {
-                    SenderImage = "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60",
-                    SenderEmail = "sender4@gmail.com",
-                    ContentId= 1004,
-                     Created = DateTime.Now,
-                      Id= 2,
-                       Text = "Bla blal ablabla ablabalb alab lbabl ",
-                       IsRead= false,
-                        UserEmail = "leandrofonseca.ti@gmail.com",
+                    Booked = item.Booked,
+                    BookedDt = item.BookedDt,
+                    FromEmail = item.FromEmail,
+                    FromName = item.FromName,
+                    id = item.Id,
+                    Title = item.Title,
+                });
+            }
+
+
+            var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
+            var dtFim = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 23, 59, 59);
+            foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.BookedDt <= dtFim)))
+            {
+                listToday.Add(new CheckinDetailModel
+                {
+                    Booked = item.Booked,
+                    BookedDt = item.BookedDt,
+                    FromEmail = item.FromEmail,
+                    FromName = item.FromName,
+                    id = item.Id,
+                    Title = item.Title,
+                });
+            }
+
+
+            foreach (var item in resultCheckin.Where(r => r.BookedDt > dtFim))
+            {
+                listNext.Add(new CheckinDetailModel
+                {
+                    Booked = item.Booked,
+                    BookedDt = item.BookedDt,
+                    FromEmail = item.FromEmail,
+                    FromName = item.FromName,
+                    id = item.Id,
+                    Title = item.Title,
+                });
+            }
+
+            var totalCheckin = resultCheckin.Count;
+
+            json.Value = new DashModel
+            {
+                Email = result.Email,
+                Name = result.Name,
+                Picture = result.Picture,
+                Phone = result.Phone,
+                Home = new HomeModel()
+                {
+                    ListDone = listDone.ToList(),
+                    ListNext = listNext,
+                    ListToday = listToday,
+                    TotalCheckin = totalCheckin,
+                    TotalNotification = totalNotification
                 }
             };
-
             return json;
         }
 
-
-        /*
-        [Authorize]
-        [HttpPost("User/GetProfile")]
-        public async Task<IActionResult> GetDashboard(IdentityModel model)
-        {
-            var result = await _userRepository.GetDashboard(model.Email);
-            var json = new LargeJsonResult();
-            json.Value = result;
-            return json;
-        }
 
         [Authorize]
-        [HttpPost("Notification/List")]
-        public async Task<IActionResult> GetNotifications(IdentityModel model)
+        [HttpGet("GetCheckins")]
+        public async Task<IActionResult> GetCheckins(LoginCheckinModel user)
         {
-            var result = await _userRepository.GetNotifications(model.Email);
+
             var json = new LargeJsonResult();
+
+            var result = new List<CheckinDetailModel>();
+
+            var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
+
+            var dtNow = DateTime.Now;
+            var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
+            foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.Booked == user.Booked)))
+            {
+                result.Add(new CheckinDetailModel
+                {
+                    Booked = item.Booked,
+                    BookedDt = item.BookedDt,
+                    FromEmail = item.FromEmail,
+                    FromName = item.FromName,
+                    id = item.Id,
+                    Title = item.Title,
+                });
+            }
+
+
             json.Value = result;
+
             return json;
         }
+
+
+        [Authorize]
+        [HttpGet("GetCheckinItem")]
+        public async Task<IActionResult> GetCheckinItem(LoginCheckinModel user)
+        {
+
+            var json = new LargeJsonResult();
+
+            var item = _serviceRepository.GetCheckin(user.Email, user.Id).Result;
+
+            var result = new CheckinDetailModel
+            {
+                Booked = item.Booked,
+                BookedDt = item.BookedDt,
+                FromEmail = item.FromEmail,
+                FromName = item.FromName,
+                id = item.Id,
+                Title = item.Title,
+            };
+
+            json.Value = result;
+
+            return json;
+        }
+
 
 
         [Authorize]
         [HttpPost("Notification/Add")]
-        public async Task<IActionResult> NotificationAdd(IdentityModel model)
+        public async Task<IActionResult> NotificationAdd(NotificationModel model)
         {
-            var result = await _userRepository.GetNotifications(model.Email);
+            var result = _serviceRepository.AddNotification(new Notification()
+            {
+                Email = model.Email,
+                CheckinId = model.CheckinId,
+                Created = model.Created,
+                FromEmail = model.SenderEmail,
+                FromName = model.SenderName,
+                FromPicture = model.SenderImage,
+                IsRead = model.IsRead,
+                Text = model.Text,
+                Title = model.Title
+
+            });
             var json = new LargeJsonResult();
             json.Value = result;
             return json;
         }
 
-
-        [Authorize]
-        [HttpPost("Notification/RemoveAll")]
-        public async Task<IActionResult> NotificationRemoveAll(IdentityModel model)
-        {
-            var result = await _userRepository.GetNotifications(model.Email);
-            var json = new LargeJsonResult();
-            json.Value = result;
-            return json;
-        }
-        */
+     
+      [Authorize]
+      [HttpPost("Notification/Remove")]
+      public async Task<IActionResult> NotificationRemove(long id)
+      {
+          var result = await _serviceRepository.RemoveNotification(id);
+          var json = new LargeJsonResult();
+          json.Value = result;
+          return json;
+      }
+     
     }
 }

@@ -27,6 +27,6 @@ namespace ConectaEsporte.Core.Services.Repositories
 		Task UpdateUser(User user);
 
 		Task DeleteUser(int id);
-
-	}
+        
+    }
 }

@@ -29,7 +29,7 @@ namespace ConectaEsporte.API.Setup
 
             // Repositories.
             services.AddScoped<IUserRepository, UserService>();
-            //services.AddLazySingleton<ISomething, Something>();
+            services.AddScoped<IServiceRepository, GeralService>();
             // Helpers
 
             // Services.

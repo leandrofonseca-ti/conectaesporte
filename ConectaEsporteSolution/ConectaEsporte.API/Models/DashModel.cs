@@ -1,4 +1,6 @@
-﻿namespace ConectaEsporte.API.Models
+﻿using System.Globalization;
+
+namespace ConectaEsporte.API.Models
 {
     [Serializable]
     public class DashModel
@@ -15,6 +17,9 @@
         public List<MenuModel> Menus { get; set; } = new List<MenuModel>();
 
         public List<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
+
+
+        public HomeModel Home { get; set; } = new HomeModel();
     }
 
     [Serializable]
@@ -44,5 +49,36 @@
     public class ActivityModel
     {
         public string Name { get; set; }
+    }
+
+    [Serializable]
+    public class HomeModel
+    {
+        public int TotalCheckin { get; set; }
+
+        public int TotalNotification { get; set; }
+
+        public List<CheckinDetailModel> ListToday { get; set; } = new List<CheckinDetailModel>();
+
+        public List<CheckinDetailModel> ListNext { get; set; } = new List<CheckinDetailModel>();
+
+        public List<CheckinDetailModel> ListDone { get; set; } = new List<CheckinDetailModel>();
+    }
+
+    [Serializable]
+    public class CheckinDetailModel
+    {
+        public CheckinDetailModel() { }
+        public long id {  get; set; }
+        public required string Title { get; set; }
+        public required string FromEmail{ get; set; }
+        public required string FromName { get; set; }
+
+        public DateTime BookedDt { get; set; }
+        public string BookedFmtDt => BookedDt.ToString("dd/MM/yyyy");
+
+        public string BookedFmtTime { get { return BookedDt.ToString("HH:mm"); } }
+
+        public bool Booked { get; set; }
     }
 }
