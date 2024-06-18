@@ -371,27 +371,27 @@ namespace ConectaEsporte.API.Controllers
 
 
 
-        [Authorize]
-        [HttpPost("Notification/Add")]
-        public async Task<IActionResult> NotificationAdd(NotificationModel model)
-        {
-            var result = _serviceRepository.AddNotification(new Notification()
-            {
-                Email = model.Email,
-                CheckinId = model.CheckinId,
-                Created = model.Created,
-                FromEmail = model.SenderEmail,
-                FromName = model.SenderName,
-                FromPicture = model.SenderImage,
-                IsRead = model.IsRead,
-                Text = model.Text,
-                Title = model.Title
+        //[Authorize]
+        //[HttpPost("Notification/Add")]
+        //public async Task<IActionResult> NotificationAdd(NotificationModel model)
+        //{
+        //    var result = _serviceRepository.AddNotification(new Notification()
+        //    {
+        //        Email = model.Email,
+        //        CheckinId = model.CheckinId,
+        //        Created = model.Created,
+        //        FromEmail = model.SenderEmail,
+        //        FromName = model.SenderName,
+        //        FromPicture = model.SenderImage,
+        //        IsRead = model.IsRead,
+        //        Text = model.Text,
+        //        Title = model.Title
 
-            });
-            var json = new LargeJsonResult();
-            json.Value = result;
-            return json;
-        }
+        //    });
+        //    var json = new LargeJsonResult();
+        //    json.Value = result;
+        //    return json;
+        //}
 
 
         [Authorize]
@@ -409,15 +409,15 @@ namespace ConectaEsporte.API.Controllers
         }
 
 
-        [Authorize]
-        [HttpPost("Notification/Remove")]
-        public async Task<IActionResult> NotificationRemove(long id)
-        {
-            var result = await _serviceRepository.RemoveNotification(id);
-            var json = new LargeJsonResult();
-            json.Value = result;
-            return json;
-        }
+        //[Authorize]
+        //[HttpPost("Notification/Remove")]
+        //public async Task<IActionResult> NotificationRemove(long id)
+        //{
+        //    var result = await _serviceRepository.RemoveNotification(id);
+        //    var json = new LargeJsonResult();
+        //    json.Value = result;
+        //    return json;
+        //}
 
     }
 }
