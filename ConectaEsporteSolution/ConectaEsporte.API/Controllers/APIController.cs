@@ -302,14 +302,11 @@ namespace ConectaEsporte.API.Controllers
                 Name = result.Name,
                 Picture = result.Picture,
                 Phone = result.Phone,
-                Home = new HomeModel()
-                {
-                    ListDone = listDone.ToList(),
-                    ListNext = listNext,
-                    ListToday = listToday,
-                    TotalCheckin = totalCheckin,
-                    TotalNotification = totalNotification
-                }
+                ListDone = listDone,
+                ListNext = listNext,
+                ListToday = listToday,
+                TotalCheckin = totalCheckin,
+                TotalNotification = totalNotification                
             };
             return json;
         }

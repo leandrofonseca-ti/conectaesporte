@@ -19,7 +19,15 @@ namespace ConectaEsporte.API.Models
         public List<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
 
 
-        public HomeModel Home { get; set; } = new HomeModel();
+        public int TotalCheckin { get; set; }
+
+        public int TotalNotification { get; set; }
+
+        public List<CheckinDetailModel> ListToday { get; set; } = new List<CheckinDetailModel>();
+
+        public List<CheckinDetailModel> ListNext { get; set; } = new List<CheckinDetailModel>();
+
+        public List<CheckinDetailModel> ListDone { get; set; } = new List<CheckinDetailModel>();
     }
 
     [Serializable]
@@ -51,19 +59,7 @@ namespace ConectaEsporte.API.Models
         public string Name { get; set; }
     }
 
-    [Serializable]
-    public class HomeModel
-    {
-        public int TotalCheckin { get; set; }
-
-        public int TotalNotification { get; set; }
-
-        public List<CheckinDetailModel> ListToday { get; set; } = new List<CheckinDetailModel>();
-
-        public List<CheckinDetailModel> ListNext { get; set; } = new List<CheckinDetailModel>();
-
-        public List<CheckinDetailModel> ListDone { get; set; } = new List<CheckinDetailModel>();
-    }
+ 
 
     [Serializable]
     public class CheckinDetailModel
