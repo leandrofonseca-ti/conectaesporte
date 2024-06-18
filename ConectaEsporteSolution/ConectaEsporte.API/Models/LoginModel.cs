@@ -5,11 +5,14 @@ namespace ConectaEsporte.API.Models
     [Serializable]
     public class LoginModel
     {
-        [Required]
-        public string Username { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Key { get; set; }
+        public string Name { get; set; }
+        public string Fcm { get; set; }
+        public string Phone { get; set; }
+        public string PhotoUrl { get; set; }
     }
 
 

@@ -80,10 +80,9 @@ namespace ConectaEsporte.API.Controllers
 
         #endregion
 
-
         [Authorize]
         [HttpGet("Authenticate/Status")]
-        public async Task<IActionResult> StatusLogin()
+        public async Task<IActionResult> AuthenticateStatus()
         {
             IActionResult response = Unauthorized();
             try
@@ -94,22 +93,22 @@ namespace ConectaEsporte.API.Controllers
 
             return response;
         }
-
+        
+        
         [Authorize]
         [HttpPost("Authenticate/Login")]
-        public async Task<IActionResult> CheckLogin(LoginModel login)
+        public async Task<IActionResult> AuthenticateLogin(LoginModel login)
         {
             var json = new LargeJsonResult();
-            //json.StatusCode = 200;
-            var result = await _userRepository.Login(login.Username, login.Password, Core.EnumProfile.Aluno);
+            var result = await _userRepository.AddOrUpdate(login.Key, login.Name, login.Email,login.Fcm, login.Phone, login.PhotoUrl);
             if (result != null && result.Id > 0)
             {
                 json.Value = new UserModel { Id = result.Id, Name = result.Name, Email = result.Email, Picture = result.Picture, Key = result.KeyMobile, Fcm = result.Fcm, Phone = result.Phone };
             }
             return json;
         }
-
-
+        
+        /*
         [Authorize]
         [HttpPost("Authenticate/SyncLogin")]
         public async Task<IActionResult> SyncLogin(UserModel login)
@@ -123,13 +122,12 @@ namespace ConectaEsporte.API.Controllers
             }
             return json;
         }
-
-
+        */
 
 
         [Authorize]
-        [HttpPost("GetPayments")]
-        public async Task<IActionResult> GetPayments(LoginMailModel user)
+        [HttpPost("Payment/List")]
+        public async Task<IActionResult> PaymentList(LoginMailModel user)
         {
             var json = new LargeJsonResult();
 
@@ -197,45 +195,8 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpPost("GetNotifications")]
-        public async Task<IActionResult> GetNotifications(LoginMailModel user)
-        {
-            var json = new LargeJsonResult();
-
-            var resultNotification = _serviceRepository.ListNotification(user.Email).Result;
-
-            var listResult = new List<NotificationModel>();
-
-            var dtNow = DateTime.Now;
-            var dt7before = dtNow.AddDays(-7);
-            var dtIni = new DateTime(dt7before.Year, dt7before.Month, dt7before.Day, 0, 0, 0);
-
-            foreach (var item in resultNotification.Where(r => r.Created >= dtIni))
-            {
-                listResult.Add(new NotificationModel
-                {
-                    Created = item.Created,
-                    SenderImage = item.FromPicture,
-                    SenderEmail = item.FromEmail,
-                    SenderName = item.FromName,
-                    CheckinId = item.CheckinId,
-                    IsRead = item.IsRead,
-                    Id = item.Id,
-                    Text = item.Text,
-                    Title = item.Title,
-                    Email = user.Email,
-                });
-            }
-
-            json.Value = listResult;
-
-            return json;
-        }
-
-
-        [Authorize]
-        [HttpPost("GetDashboard")]
-        public async Task<IActionResult> GetDashboard(LoginMailModel user)
+        [HttpPost("Dashboard/Get")]
+        public async Task<IActionResult> DashboardGet(LoginMailModel user)
         {
             var json = new LargeJsonResult();
 
@@ -313,8 +274,8 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpGet("GetCheckins")]
-        public async Task<IActionResult> GetCheckins(LoginCheckinModel user)
+        [HttpGet("Checkin/List")]
+        public async Task<IActionResult> CheckinList(LoginCheckinModel user)
         {
 
             var json = new LargeJsonResult();
@@ -346,8 +307,8 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpGet("GetCheckinItem")]
-        public async Task<IActionResult> GetCheckinItem(LoginCheckinModel user)
+        [HttpGet("Checkin/Get")]
+        public async Task<IActionResult> CheckinGet(LoginCheckinModel user)
         {
 
             var json = new LargeJsonResult();
@@ -392,6 +353,42 @@ namespace ConectaEsporte.API.Controllers
         //    json.Value = result;
         //    return json;
         //}
+
+        [Authorize]
+        [HttpPost("Notification/List")]
+        public async Task<IActionResult> GetNotifications(LoginMailModel user)
+        {
+            var json = new LargeJsonResult();
+
+            var resultNotification = _serviceRepository.ListNotification(user.Email).Result;
+
+            var listResult = new List<NotificationModel>();
+
+            var dtNow = DateTime.Now;
+            var dt7before = dtNow.AddDays(-7);
+            var dtIni = new DateTime(dt7before.Year, dt7before.Month, dt7before.Day, 0, 0, 0);
+
+            foreach (var item in resultNotification.Where(r => r.Created >= dtIni))
+            {
+                listResult.Add(new NotificationModel
+                {
+                    Created = item.Created,
+                    SenderImage = item.FromPicture,
+                    SenderEmail = item.FromEmail,
+                    SenderName = item.FromName,
+                    CheckinId = item.CheckinId,
+                    IsRead = item.IsRead,
+                    Id = item.Id,
+                    Text = item.Text,
+                    Title = item.Title,
+                    Email = user.Email,
+                });
+            }
+
+            json.Value = listResult;
+
+            return json;
+        }
 
 
         [Authorize]

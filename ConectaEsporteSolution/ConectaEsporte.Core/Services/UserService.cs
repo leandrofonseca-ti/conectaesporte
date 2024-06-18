@@ -31,7 +31,12 @@ namespace ConectaEsporte.Core.Services
         }
 
 
-        public async Task<UserEntity> UpdateUserMobile(string key, string name, string email, string fcm, string phone, string photourl)
+        public async Task<UserEntity> AddOrUpdate(string key, 
+            string name, 
+            string email, 
+            string fcm, 
+            string phone, 
+            string photourl)
         {
             var user = GetUserByEmail(email);
 
