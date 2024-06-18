@@ -294,7 +294,7 @@ namespace ConectaEsporte.API.Controllers
                 });
             }
 
-            var totalCheckin = resultCheckin.Count;
+            var totalCheckin = listToday.Count + listNext.Count;
 
             json.Value = new DashModel
             {
@@ -388,6 +388,21 @@ namespace ConectaEsporte.API.Controllers
                 Title = model.Title
 
             });
+            var json = new LargeJsonResult();
+            json.Value = result;
+            return json;
+        }
+
+
+        [Authorize]
+        [HttpPost("Notification/UpdateRead")]
+        public async Task<IActionResult> NotificationUpdateRead(NotificationModel model)
+        {
+            var result = _serviceRepository.UpdateNotificationRead(new Notification()
+            {
+                Id = model.Id
+            });
+
             var json = new LargeJsonResult();
             json.Value = result;
             return json;

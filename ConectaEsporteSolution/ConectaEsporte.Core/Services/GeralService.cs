@@ -113,5 +113,18 @@ namespace ConectaEsporte.Core.Services
             _dbContext.SaveChanges();
             return true;
         }
+        public async Task<bool> UpdateNotificationRead(Notification entity)
+        {
+            var entityResult = await _dbContext.notification.Where(t => t.Id == entity.Id).SingleOrDefaultAsync();
+
+            if (entityResult != null)
+            {
+                entityResult.IsRead = true;
+                _dbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
     }
 }
