@@ -19,4 +19,10 @@
         public string Text { get; set; }
         public string Title { get; set; }
     }
+
+
+    public class ParamIdentity
+    {
+        public long Id { get; set; }
+    }
 }

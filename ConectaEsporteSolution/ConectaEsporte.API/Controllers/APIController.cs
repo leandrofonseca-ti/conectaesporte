@@ -396,7 +396,7 @@ namespace ConectaEsporte.API.Controllers
 
         [Authorize]
         [HttpPost("Notification/UpdateRead")]
-        public async Task<IActionResult> NotificationUpdateRead(NotificationModel model)
+        public async Task<IActionResult> NotificationUpdateRead(ParamIdentity model)
         {
             var result = _serviceRepository.UpdateNotificationRead(new Notification()
             {
