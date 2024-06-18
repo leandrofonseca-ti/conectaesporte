@@ -115,7 +115,8 @@ namespace ConectaEsporte.Core.Services
         }
         public async Task<bool> UpdateNotificationRead(Notification entity)
         {
-            var entityResult = await _dbContext.notification.Where(t => t.Id == entity.Id).SingleOrDefaultAsync();
+            var code = entity.Id;
+            var entityResult = _dbContext.notification.Where(t => t.Id == code).FirstOrDefaultAsync().Result;
 
             if (entityResult != null)
             {

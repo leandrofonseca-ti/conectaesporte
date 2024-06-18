@@ -1,5 +1,6 @@
 ﻿namespace ConectaEsporte.API.Models
 {
+    [Serializable]
     public class NotificationModel
     {
         public long Id { get; set; }
@@ -21,6 +22,7 @@
     }
 
 
+    [Serializable]
     public class ParamIdentity
     {
         public long Id { get; set; }
