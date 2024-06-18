@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Text;
 
 namespace ConectaEsporte.API.Controllers
@@ -84,6 +85,7 @@ namespace ConectaEsporte.API.Controllers
         [HttpGet("Authenticate/Status")]
         public async Task<IActionResult> AuthenticateStatus()
         {
+            var json = new LargeJsonResult();
             IActionResult response = Unauthorized();
             try
             {
@@ -91,23 +93,58 @@ namespace ConectaEsporte.API.Controllers
             }
             catch (Exception ex) { }
 
-            return response;
+            try
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = response,
+                };
+
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
         }
-        
-        
+
+
         [Authorize]
         [HttpPost("Authenticate/Login")]
         public async Task<IActionResult> AuthenticateLogin(LoginModel login)
         {
             var json = new LargeJsonResult();
-            var result = await _userRepository.AddOrUpdate(login.Key, login.Name, login.Email,login.Fcm, login.Phone, login.PhotoUrl);
-            if (result != null && result.Id > 0)
+            try
             {
-                json.Value = new UserModel { Id = result.Id, Name = result.Name, Email = result.Email, Picture = result.Picture, Key = result.KeyMobile, Fcm = result.Fcm, Phone = result.Phone };
+                var result = await _userRepository.AddOrUpdate(login.Key, login.Name, login.Email, login.Fcm, login.Phone, login.PhotoUrl);
+                var resultFinal = new UserModel();
+                if (result != null && result.Id > 0)
+                {
+                    resultFinal = new UserModel { Id = result.Id, Name = result.Name, Email = result.Email, Picture = result.Picture, Key = result.KeyMobile, Fcm = result.Fcm, Phone = result.Phone };
+                }
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = resultFinal
+                };
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
             }
             return json;
         }
-        
+
         /*
         [Authorize]
         [HttpPost("Authenticate/SyncLogin")]
@@ -130,65 +167,79 @@ namespace ConectaEsporte.API.Controllers
         public async Task<IActionResult> PaymentList(LoginMailModel user)
         {
             var json = new LargeJsonResult();
-
-            var resultPlanGroup = await _serviceRepository.ListPlanGroup();
-
-            var result = await _serviceRepository.GetPlanUser(user.Email);
-
-
-
-            var active = false;
-            var willexpire = false;
-
-
-            if (result != null)
+            try
             {
-                var dtNow = DateTime.Now;
-                if (result.Created >= dtNow && result.Created <= dtNow)
+
+                var resultPlanGroup = await _serviceRepository.ListPlanGroup();
+
+                var result = await _serviceRepository.GetPlanUser(user.Email);
+
+                var active = false;
+                var willexpire = false;
+
+
+                if (result != null)
                 {
-                    active = true;
+                    var dtNow = DateTime.Now;
+                    if (result.Created >= dtNow && result.Created <= dtNow)
+                    {
+                        active = true;
+                    }
+
+                    var r = dtNow.Subtract(result.Created);
+                    willexpire = r.TotalDays <= 7;
+
+                    var resultItem = new PlanUserEntity
+                    {
+                        Created = result.Created,
+                        Finished = result.Finished,
+                        Id = result.Id,
+                        PlanId = result.PlanId,
+                        UserId = result.UserId,
+                    };
+
+
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = new PaymentModel
+                        {
+                            Plans = resultPlanGroup,
+                            PlanSelected = resultItem,
+                            UserEmail = user.Email,
+                            UserId = resultItem.UserId,
+                            Active = active,
+                            WillExpire = willexpire,
+                            Id = resultItem.Id,
+                        }
+                    };
                 }
-
-                var r = dtNow.Subtract(result.Created);
-                willexpire = r.TotalDays <= 7;
-
-                var resultItem = new PlanUserEntity
+                else
                 {
-                    Created = result.Created,
-                    Finished = result.Finished,
-                    Id = result.Id,
-                    PlanId = result.PlanId,
-                    UserId = result.UserId,
-                };
-
-                json.Value = new PaymentModel
-                {
-                    Plans = resultPlanGroup,
-                    PlanSelected = resultItem,
-                    UserEmail = user.Email,
-                    UserId = resultItem.UserId,
-                    Active = active,
-                    WillExpire = willexpire,
-                    Id = resultItem.Id,
-                };
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = new PaymentModel
+                        {
+                            Plans = resultPlanGroup,
+                            PlanSelected = null,
+                            UserEmail = user.Email,
+                            UserId = 0,
+                            Active = active,
+                            WillExpire = willexpire,
+                            Id = 0,
+                        }
+                    };
+                }
             }
-            else
+            catch (Exception ex)
             {
-                json.Value = new PaymentModel
+                json.Value = new
                 {
-                    Plans = resultPlanGroup,
-                    PlanSelected = null,
-                    UserEmail = user.Email,
-                    UserId = 0,
-                    Active = active,
-                    WillExpire = willexpire,
-                    Id = 0,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
                 };
             }
-
-
-
-
             return json;
         }
 
@@ -199,76 +250,92 @@ namespace ConectaEsporte.API.Controllers
         public async Task<IActionResult> DashboardGet(LoginMailModel user)
         {
             var json = new LargeJsonResult();
-
-            var result = _serviceRepository.GetUserByEmail(user.Email).Result;
-
-            var totalNotification = _serviceRepository.TotalNotification(user.Email).Result;
-
-            var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
-
-            var listDone = new List<CheckinDetailModel>();
-            var listToday = new List<CheckinDetailModel>();
-            var listNext = new List<CheckinDetailModel>();
-
-            var dtNow = DateTime.Now;
-
-            foreach (var item in resultCheckin.Where(r => r.BookedDt < dtNow && r.Booked == true))
+            try
             {
-                listDone.Add(new CheckinDetailModel
+
+                var result = _serviceRepository.GetUserByEmail(user.Email).Result;
+
+                var totalNotification = _serviceRepository.TotalNotification(user.Email).Result;
+
+                var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
+
+                var listDone = new List<CheckinDetailModel>();
+                var listToday = new List<CheckinDetailModel>();
+                var listNext = new List<CheckinDetailModel>();
+
+                var dtNow = DateTime.Now;
+
+                foreach (var item in resultCheckin.Where(r => r.BookedDt < dtNow && r.Booked == true))
                 {
-                    Booked = item.Booked,
-                    BookedDt = item.BookedDt,
-                    FromEmail = item.FromEmail,
-                    FromName = item.FromName,
-                    id = item.Id,
-                    Title = item.Title,
-                });
-            }
+                    listDone.Add(new CheckinDetailModel
+                    {
+                        Booked = item.Booked,
+                        BookedDt = item.BookedDt,
+                        FromEmail = item.FromEmail,
+                        FromName = item.FromName,
+                        id = item.Id,
+                        Title = item.Title,
+                    });
+                }
 
 
-            var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
-            var dtFim = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 23, 59, 59);
-            foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.BookedDt <= dtFim)))
-            {
-                listToday.Add(new CheckinDetailModel
+                var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
+                var dtFim = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 23, 59, 59);
+                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.BookedDt <= dtFim)))
                 {
-                    Booked = item.Booked,
-                    BookedDt = item.BookedDt,
-                    FromEmail = item.FromEmail,
-                    FromName = item.FromName,
-                    id = item.Id,
-                    Title = item.Title,
-                });
-            }
+                    listToday.Add(new CheckinDetailModel
+                    {
+                        Booked = item.Booked,
+                        BookedDt = item.BookedDt,
+                        FromEmail = item.FromEmail,
+                        FromName = item.FromName,
+                        id = item.Id,
+                        Title = item.Title,
+                    });
+                }
 
 
-            foreach (var item in resultCheckin.Where(r => r.BookedDt > dtFim))
-            {
-                listNext.Add(new CheckinDetailModel
+                foreach (var item in resultCheckin.Where(r => r.BookedDt > dtFim))
                 {
-                    Booked = item.Booked,
-                    BookedDt = item.BookedDt,
-                    FromEmail = item.FromEmail,
-                    FromName = item.FromName,
-                    id = item.Id,
-                    Title = item.Title,
-                });
+                    listNext.Add(new CheckinDetailModel
+                    {
+                        Booked = item.Booked,
+                        BookedDt = item.BookedDt,
+                        FromEmail = item.FromEmail,
+                        FromName = item.FromName,
+                        id = item.Id,
+                        Title = item.Title,
+                    });
+                }
+
+                var totalCheckin = listToday.Count + listNext.Count;
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = new DashModel
+                    {
+                        Email = result.Email,
+                        Name = result.Name,
+                        Picture = result.Picture,
+                        Phone = result.Phone,
+                        ListDone = listDone,
+                        ListNext = listNext,
+                        ListToday = listToday,
+                        TotalCheckin = totalCheckin,
+                        TotalNotification = totalNotification
+                    }
+                };
+
             }
-
-            var totalCheckin = listToday.Count + listNext.Count;
-
-            json.Value = new DashModel
+            catch (Exception ex)
             {
-                Email = result.Email,
-                Name = result.Name,
-                Picture = result.Picture,
-                Phone = result.Phone,
-                ListDone = listDone,
-                ListNext = listNext,
-                ListToday = listToday,
-                TotalCheckin = totalCheckin,
-                TotalNotification = totalNotification                
-            };
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
             return json;
         }
 
@@ -279,29 +346,44 @@ namespace ConectaEsporte.API.Controllers
         {
 
             var json = new LargeJsonResult();
-
-            var result = new List<CheckinDetailModel>();
-
-            var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
-
-            var dtNow = DateTime.Now;
-            var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
-            foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.Booked == user.Booked)))
+            try
             {
-                result.Add(new CheckinDetailModel
+
+                var result = new List<CheckinDetailModel>();
+
+                var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
+
+                var dtNow = DateTime.Now;
+                var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
+                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.Booked == user.Booked)))
                 {
-                    Booked = item.Booked,
-                    BookedDt = item.BookedDt,
-                    FromEmail = item.FromEmail,
-                    FromName = item.FromName,
-                    id = item.Id,
-                    Title = item.Title,
-                });
+                    result.Add(new CheckinDetailModel
+                    {
+                        Booked = item.Booked,
+                        BookedDt = item.BookedDt,
+                        FromEmail = item.FromEmail,
+                        FromName = item.FromName,
+                        id = item.Id,
+                        Title = item.Title,
+                    });
+                }
+
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = result
+                };
+
             }
-
-
-            json.Value = result;
-
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
             return json;
         }
 
@@ -312,21 +394,37 @@ namespace ConectaEsporte.API.Controllers
         {
 
             var json = new LargeJsonResult();
-
-            var item = _serviceRepository.GetCheckin(user.Email, user.Id).Result;
-
-            var result = new CheckinDetailModel
+            try
             {
-                Booked = item.Booked,
-                BookedDt = item.BookedDt,
-                FromEmail = item.FromEmail,
-                FromName = item.FromName,
-                id = item.Id,
-                Title = item.Title,
-            };
 
-            json.Value = result;
+                var item = _serviceRepository.GetCheckin(user.Email, user.Id).Result;
 
+                var result = new CheckinDetailModel
+                {
+                    Booked = item.Booked,
+                    BookedDt = item.BookedDt,
+                    FromEmail = item.FromEmail,
+                    FromName = item.FromName,
+                    id = item.Id,
+                    Title = item.Title,
+                };
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = result
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
             return json;
         }
 
@@ -359,34 +457,49 @@ namespace ConectaEsporte.API.Controllers
         public async Task<IActionResult> GetNotifications(LoginMailModel user)
         {
             var json = new LargeJsonResult();
-
-            var resultNotification = _serviceRepository.ListNotification(user.Email).Result;
-
-            var listResult = new List<NotificationModel>();
-
-            var dtNow = DateTime.Now;
-            var dt7before = dtNow.AddDays(-7);
-            var dtIni = new DateTime(dt7before.Year, dt7before.Month, dt7before.Day, 0, 0, 0);
-
-            foreach (var item in resultNotification.Where(r => r.Created >= dtIni))
+            try
             {
-                listResult.Add(new NotificationModel
+                var resultNotification = _serviceRepository.ListNotification(user.Email).Result;
+
+                var listResult = new List<NotificationModel>();
+
+                var dtNow = DateTime.Now;
+                var dt7before = dtNow.AddDays(-7);
+                var dtIni = new DateTime(dt7before.Year, dt7before.Month, dt7before.Day, 0, 0, 0);
+
+                foreach (var item in resultNotification.Where(r => r.Created >= dtIni))
                 {
-                    Created = item.Created,
-                    SenderImage = item.FromPicture,
-                    SenderEmail = item.FromEmail,
-                    SenderName = item.FromName,
-                    CheckinId = item.CheckinId,
-                    IsRead = item.IsRead,
-                    Id = item.Id,
-                    Text = item.Text,
-                    Title = item.Title,
-                    Email = user.Email,
-                });
+                    listResult.Add(new NotificationModel
+                    {
+                        Created = item.Created,
+                        SenderImage = item.FromPicture,
+                        SenderEmail = item.FromEmail,
+                        SenderName = item.FromName,
+                        CheckinId = item.CheckinId,
+                        IsRead = item.IsRead,
+                        Id = item.Id,
+                        Text = item.Text,
+                        Title = item.Title,
+                        Email = user.Email,
+                    });
+                }
+
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = listResult
+                };
+
             }
-
-            json.Value = listResult;
-
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
             return json;
         }
 
@@ -395,13 +508,29 @@ namespace ConectaEsporte.API.Controllers
         [HttpPost("Notification/UpdateRead")]
         public async Task<IActionResult> NotificationUpdateRead(ParamIdentity model)
         {
-            var result = _serviceRepository.UpdateNotificationRead(new Notification()
-            {
-                Id = model.Id
-            });
-
             var json = new LargeJsonResult();
-            json.Value = result;
+            try
+            {
+                var result = _serviceRepository.UpdateNotificationRead(new Notification()
+                {
+                    Id = model.Id
+                });
+
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = result
+                };
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
             return json;
         }
 
