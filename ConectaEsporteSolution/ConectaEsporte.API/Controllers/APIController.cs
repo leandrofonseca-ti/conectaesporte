@@ -212,6 +212,7 @@ namespace ConectaEsporte.API.Controllers
                     IsRead = item.IsRead,
                     Id = item.Id,
                     Text = item.Text,
+                    Title = item.Title,
                     Email = user.Email,
                 });
             }
