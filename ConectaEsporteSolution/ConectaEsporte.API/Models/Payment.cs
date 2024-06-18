@@ -11,7 +11,7 @@ namespace ConectaEsporte.API.Models
 
         public string UserEmail { get; set; }
 
-        public PlanUser PlanSelected { get; set; } = new PlanUser();
+        public PlanUserEntity PlanSelected { get; set; } = new PlanUserEntity();
 
         public List<PlanEntity> Plans { get; set; } = new List<PlanEntity>();
 

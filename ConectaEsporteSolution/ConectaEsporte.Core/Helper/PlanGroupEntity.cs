@@ -23,4 +23,21 @@ namespace ConectaEsporte.Core.Helper
         public int Order { get; set; }
         public bool Active { get; set; }
     }
+
+
+    public class PlanUserEntity
+    {
+        public long Id { get; set; }
+        public long UserId { get; set; }
+        public long PlanId { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Finished { get; set; }
+
+        public string CreatedFormat { get { return Created.ToString("dd/MM/yyyy"); } }
+        public string CreatedTimeFormat { get { return Created.ToString("HH:mm"); } }
+
+        public string FinishedFormat { get { return Finished.ToString("dd/MM/yyyy"); } }
+        public string FinishedTimeFormat { get { return Finished.ToString("HH:mm"); } }
+
+    }
 }

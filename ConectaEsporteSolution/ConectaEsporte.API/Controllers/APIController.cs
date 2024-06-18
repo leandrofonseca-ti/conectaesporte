@@ -1,5 +1,6 @@
 ﻿using ConectaEsporte.API.Models;
 using ConectaEsporte.API.Setup;
+using ConectaEsporte.Core.Helper;
 using ConectaEsporte.Core.Models;
 using ConectaEsporte.Core.Services.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -114,7 +115,7 @@ namespace ConectaEsporte.API.Controllers
         public async Task<IActionResult> SyncLogin(UserModel login)
         {
             var json = new LargeJsonResult();
-         
+
             var result = await _userRepository.UpdateUserMobile(login.Key, login.Name, login.Email, login.Fcm, login.Phone, login.Picture);
             if (result != null && result.Id > 0)
             {
@@ -136,7 +137,7 @@ namespace ConectaEsporte.API.Controllers
 
             var result = await _serviceRepository.GetPlanUser(user.Email);
 
-   
+
 
             var active = false;
             var willexpire = false;
@@ -145,7 +146,7 @@ namespace ConectaEsporte.API.Controllers
             if (result != null)
             {
                 var dtNow = DateTime.Now;
-                if(result.Created >= dtNow && result.Created <= dtNow)
+                if (result.Created >= dtNow && result.Created <= dtNow)
                 {
                     active = true;
                 }
@@ -153,15 +154,24 @@ namespace ConectaEsporte.API.Controllers
                 var r = dtNow.Subtract(result.Created);
                 willexpire = r.TotalDays <= 7;
 
+                var resultItem = new PlanUserEntity
+                {
+                    Created = result.Created,
+                    Finished = result.Finished,
+                    Id = result.Id,
+                    PlanId = result.PlanId,
+                    UserId = result.UserId,
+                };
+
                 json.Value = new PaymentModel
                 {
                     Plans = resultPlanGroup,
-                    PlanSelected = result,
+                    PlanSelected = resultItem,
                     UserEmail = user.Email,
-                    UserId = result.UserId,
+                    UserId = resultItem.UserId,
                     Active = active,
                     WillExpire = willexpire,
-                    Id = result.Id,
+                    Id = resultItem.Id,
                 };
             }
             else
@@ -178,9 +188,9 @@ namespace ConectaEsporte.API.Controllers
                 };
             }
 
-          
 
-  
+
+
             return json;
         }
 
@@ -386,16 +396,16 @@ namespace ConectaEsporte.API.Controllers
             return json;
         }
 
-     
-      [Authorize]
-      [HttpPost("Notification/Remove")]
-      public async Task<IActionResult> NotificationRemove(long id)
-      {
-          var result = await _serviceRepository.RemoveNotification(id);
-          var json = new LargeJsonResult();
-          json.Value = result;
-          return json;
-      }
-     
+
+        [Authorize]
+        [HttpPost("Notification/Remove")]
+        public async Task<IActionResult> NotificationRemove(long id)
+        {
+            var result = await _serviceRepository.RemoveNotification(id);
+            var json = new LargeJsonResult();
+            json.Value = result;
+            return json;
+        }
+
     }
 }
