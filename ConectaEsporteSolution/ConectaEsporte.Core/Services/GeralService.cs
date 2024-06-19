@@ -36,7 +36,7 @@ namespace ConectaEsporte.Core.Services
         }
         public async Task<int> TotalNotification(string email)
         {
-            return await _dbContext.notification.Where(t => t.Email == email).CountAsync();
+            return await _dbContext.notification.Where(t => t.Email == email && t.IsRead == false).CountAsync();
         }
 
 
