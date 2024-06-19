@@ -439,7 +439,7 @@ namespace ConectaEsporte.API.Controllers
             try
             {
 
-                var item = _serviceRepository.SetCheckin(user.Email, user.Id).Result;
+                var item = _serviceRepository.SetCheckin(user.Email, user.Id, user.Booked).Result;
 
                 json.Value = new
                 {

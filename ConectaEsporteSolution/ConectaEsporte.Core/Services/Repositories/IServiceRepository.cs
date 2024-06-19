@@ -12,7 +12,7 @@ namespace ConectaEsporte.Core.Services.Repositories
 	{
         Task<Checkin> GetCheckin(string email, long id);
 
-        Task<bool> SetCheckin(string email, long id);
+        Task<bool> SetCheckin(string email, long id, bool booked);
         Task<User> GetUserByEmail(string email);
 		Task<List<Checkin>> ListCheckin(string email);
         Task<List<Notification>> ListNotification(string email);

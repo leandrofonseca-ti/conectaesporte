@@ -36,14 +36,14 @@ namespace ConectaEsporte.Core.Services
         }
 
 
-        public async Task<bool> SetCheckin(string email, long id)
+        public async Task<bool> SetCheckin(string email, long id, bool booked)
         {
             var code = id;
             var entityResult = _dbContext.checkin.Where(t => t.Email == email && t.Id == code).FirstOrDefaultAsync().Result;
 
             if (entityResult != null)
             {
-                entityResult.Booked = true;
+                entityResult.Booked = booked;
                 entityResult.ConfirmDt = DateTime.Now;
                 _dbContext.SaveChanges();
                 return true;
