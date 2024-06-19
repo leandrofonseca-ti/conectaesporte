@@ -34,6 +34,23 @@ namespace ConectaEsporte.Core.Services
         {
             return await _dbContext.checkin.Where(t => t.Email == email && t.Id == id).FirstOrDefaultAsync();
         }
+
+
+        public async Task<bool> SetCheckin(string email, long id)
+        {
+            var code = id;
+            var entityResult = _dbContext.checkin.Where(t => t.Email == email && t.Id == code).FirstOrDefaultAsync().Result;
+
+            if (entityResult != null)
+            {
+                entityResult.Booked = true;
+                entityResult.ConfirmDt = DateTime.Now;
+                _dbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
         public async Task<int> TotalNotification(string email)
         {
             return await _dbContext.notification.Where(t => t.Email == email && t.IsRead == false).CountAsync();

@@ -15,6 +15,7 @@ namespace ConectaEsporte.Core.Models
         public string FromName { get; set; }
         public DateTime BookedDt { get; set; }
 
+        public DateTime? ConfirmDt { get; set; }
         public bool Booked { get; set; }
     }
 }

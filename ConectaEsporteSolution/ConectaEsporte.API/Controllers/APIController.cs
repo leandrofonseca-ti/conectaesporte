@@ -342,7 +342,7 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpGet("Checkin/List")]
+        [HttpPost("Checkin/List")]
         public async Task<IActionResult> CheckinList(LoginCheckinModel user)
         {
 
@@ -390,7 +390,7 @@ namespace ConectaEsporte.API.Controllers
 
 
         [Authorize]
-        [HttpGet("Checkin/Get")]
+        [HttpPost("Checkin/Get")]
         public async Task<IActionResult> CheckinGet(LoginCheckinModel user)
         {
 
@@ -430,6 +430,35 @@ namespace ConectaEsporte.API.Controllers
         }
 
 
+        [Authorize]
+        [HttpPost("Checkin/Set")]
+        public async Task<IActionResult> CheckinSet(LoginCheckinModel user)
+        {
+
+            var json = new LargeJsonResult();
+            try
+            {
+
+                var item = _serviceRepository.SetCheckin(user.Email, user.Id).Result;
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = item
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
+        }
 
         //[Authorize]
         //[HttpPost("Notification/Add")]
