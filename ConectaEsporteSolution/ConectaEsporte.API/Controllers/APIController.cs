@@ -100,7 +100,7 @@ namespace ConectaEsporte.API.Controllers
 
         //    try
         //    {
-      
+
 
         //    }
         //    catch (Exception ex)
@@ -253,7 +253,6 @@ namespace ConectaEsporte.API.Controllers
             var json = new LargeJsonResult();
             try
             {
-
                 var result = _serviceRepository.GetUserByEmail(user.Email).Result;
 
                 var totalNotification = _serviceRepository.TotalNotification(user.Email).Result;
@@ -265,8 +264,9 @@ namespace ConectaEsporte.API.Controllers
                 var listNext = new List<CheckinDetailModel>();
 
                 var dtNow = DateTime.Now;
+                var dtLast7Days = dtNow.AddDays(-7);
 
-                foreach (var item in resultCheckin.Where(r => r.BookedDt < dtNow && r.Booked == true))
+                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtLast7Days && r.BookedDt < dtNow)))
                 {
                     listDone.Add(new CheckinDetailModel
                     {
@@ -345,18 +345,16 @@ namespace ConectaEsporte.API.Controllers
         [HttpPost("Checkin/List")]
         public async Task<IActionResult> CheckinList(LoginCheckinModel user)
         {
-
             var json = new LargeJsonResult();
             try
             {
-
                 var result = new List<CheckinDetailModel>();
-
                 var resultCheckin = _serviceRepository.ListCheckin(user.Email).Result;
-
                 var dtNow = DateTime.Now;
+
                 var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
-                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni)))
+                var dtFim = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 23, 59, 59);
+                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.BookedDt <= dtFim)))
                 {
                     result.Add(new CheckinDetailModel
                     {
@@ -369,13 +367,24 @@ namespace ConectaEsporte.API.Controllers
                     });
                 }
 
+                foreach (var item in resultCheckin.Where(r => r.BookedDt > dtFim))
+                {
+                    result.Add(new CheckinDetailModel
+                    {
+                        Booked = item.Booked,
+                        BookedDt = item.BookedDt,
+                        FromEmail = item.FromEmail,
+                        FromName = item.FromName,
+                        id = item.Id,
+                        Title = item.Title,
+                    });
+                }
 
                 json.Value = new
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Data = result
+                    Data = result.OrderBy(t => t.BookedDt).ToList()
                 };
-
             }
             catch (Exception ex)
             {

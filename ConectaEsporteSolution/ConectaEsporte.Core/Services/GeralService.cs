@@ -27,7 +27,7 @@ namespace ConectaEsporte.Core.Services
 
         public async Task<List<Checkin>> ListCheckin(string email)
         {
-            return await _dbContext.checkin.Where(t => t.Email == email).ToListAsync();
+            return await _dbContext.checkin.Where(t => t.Email == email).OrderBy(t => t.BookedDt).ToListAsync();
         }
 
         public async Task<Checkin> GetCheckin(string email, long id)
@@ -53,7 +53,14 @@ namespace ConectaEsporte.Core.Services
         }
         public async Task<int> TotalNotification(string email)
         {
-            return await _dbContext.notification.Where(t => t.Email == email && t.IsRead == false).CountAsync();
+            var dtNow = DateTime.Now;
+            var dtLast7 = dtNow.AddDays(-7);
+            var dtIni = new DateTime(dtLast7.Year, dtLast7.Month, dtLast7.Day, 0, 0, 0);
+
+            return await _dbContext.notification.Where(t =>
+            t.Email == email
+            && (t.Created >= dtIni)
+            && t.IsRead == false).CountAsync();
         }
 
 
@@ -72,7 +79,7 @@ namespace ConectaEsporte.Core.Services
 
         public async Task<List<Notification>> ListNotification(string email)
         {
-            return await _dbContext.notification.Where(t => t.Email == email).ToListAsync();
+            return await _dbContext.notification.Where(t => t.Email == email).OrderBy(t => t.Created).ToListAsync();
         }
 
 
