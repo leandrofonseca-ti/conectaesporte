@@ -356,7 +356,7 @@ namespace ConectaEsporte.API.Controllers
 
                 var dtNow = DateTime.Now;
                 var dtIni = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
-                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni && r.Booked == user.Booked)))
+                foreach (var item in resultCheckin.Where(r => (r.BookedDt >= dtIni)))
                 {
                     result.Add(new CheckinDetailModel
                     {
