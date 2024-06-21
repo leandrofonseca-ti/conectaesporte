@@ -32,7 +32,7 @@ jobs:
         
   ftp-deploy:
     needs: web-deploy
-    runs-on: self-hosted
+    runs-on: windows-latest
     steps:
     - name: 1 🚚 Deploy to FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
