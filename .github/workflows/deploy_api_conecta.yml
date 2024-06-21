@@ -29,14 +29,13 @@ jobs:
         run: msbuild ${{ env.SOLUTION_APP }} '/p:Configuration=Release' -t:rebuild 
       - name: 7 🚚 Publish app for deploy
         run: dotnet publish ${{ env.PROJECT_APP }} --no-build --output ${{ env.PROJECT_RELEASE }}
-        
-  ftp-deploy:
-    needs: web-deploy
-    runs-on: self-hosted
-    steps:
-    - name: 1 🚚 Deploy to FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
+  # ftp-deploy:
+  #   needs: web-deploy
+  #   runs-on: windows-latest
+  #   steps:
+      - name: 8 🚚 Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
           server: ${{ secrets.FTP_HOST }} 
           username: ${{ secrets.FTP_USER }} 
           password: ${{ secrets.FTP_PASSWORD }} 
