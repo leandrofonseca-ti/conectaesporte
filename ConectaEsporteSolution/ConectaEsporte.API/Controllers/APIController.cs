@@ -198,10 +198,11 @@ namespace ConectaEsporte.API.Controllers
                     {
                         active = true;
                     }
-
-                    var r = dtNow.Subtract(result.Created);
-                    willexpire = r.TotalDays <= 7;
-
+                    if (!result.Free)
+                    {
+                        var r = dtNow.Subtract(result.Finished);
+                        willexpire = r.TotalDays <= 7;
+                    }
                     //var resultItem = new PlanUserEntity
                     //{
                     //    Created = result.Created,

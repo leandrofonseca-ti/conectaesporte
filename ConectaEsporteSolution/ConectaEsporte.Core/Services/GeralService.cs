@@ -137,6 +137,7 @@ namespace ConectaEsporte.Core.Services
                              PlanId = plansuser.PlanId,
                              GroupName = plansGroup.Name,
                              Name = plan.Name,
+                             Description = plan.Description,
                              UserId = plansuser.UserId
                          }).ToListAsync();
 
