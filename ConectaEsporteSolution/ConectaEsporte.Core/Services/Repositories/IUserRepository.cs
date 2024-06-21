@@ -23,8 +23,8 @@ namespace ConectaEsporte.Core.Services.Repositories
 		Task<User> GetUserByEmail(string email);
 
 		Task<UserEntity> AddUser(UserEntity user);
-
-		Task UpdateUser(User user);
+		Task<UserEntity> AddOrUpdateMobile(UserEntity user);
+        Task UpdateUser(User user);
 
 		Task DeleteUser(int id);
         

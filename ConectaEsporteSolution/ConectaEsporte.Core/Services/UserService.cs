@@ -1,12 +1,16 @@
 ﻿using ConectaEsporte.Core.Database;
 using ConectaEsporte.Core.Models;
 using ConectaEsporte.Core.Services.Repositories;
+using MercadoPago.Resource.Common;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ConectaEsporte.Core.Services
 {
@@ -214,6 +218,74 @@ namespace ConectaEsporte.Core.Services
             }
             return new UserEntity();
 
+        }
+
+
+        public async Task<UserEntity> AddOrUpdateMobile(UserEntity user)
+        {
+          //  var resultExists = await _dbContext.user.AnyAsync(r => r.Email == user.Email);
+
+            var userDb = GetUserByEmail(user.Email);
+
+            if (userDb.Result.Id > 0)
+            {
+                var updateUser = userDb.Result;
+                updateUser.Fcm = user.Fcm;
+                updateUser.KeyMobile = user.KeyMobile;
+                updateUser.Name = user.Name;
+                updateUser.Picture = user.Picture;
+                UpdateUser(updateUser);
+
+                return new UserEntity()
+                {
+                    Fcm = updateUser.Fcm,
+                    Email = updateUser.Email,
+                    KeyMobile = updateUser.KeyMobile,
+                    Name = updateUser.Name,
+                    Created_Date = updateUser.Created_Date,
+                    Id = updateUser.Id,
+                    Phone = updateUser.Phone,
+                    Picture = updateUser.Picture,
+                };
+
+            }
+            else
+            {
+                user.Password = "";// Util.EncodePassword(user.Password);
+                var result = await _dbContext.user.AddAsync(
+                     new UserEntity
+                     {
+                         Created_Date = user.Created_Date,
+                         Email = user.Email,
+                         Name = user.Name,
+                         Password = user.Password,
+                         Phone = user.Phone,
+                         Picture = user.Picture,
+                         Fcm = user.Fcm
+                     });
+
+                var resCode = await _dbContext.SaveChangesAsync();
+
+                var resultProfile = await _dbContext.userprofile.AddAsync(
+                     new UserProfile
+                     {
+                         ProfileId = user.Profiles.FirstOrDefault().Id,
+                         UserId = result.Entity.Id
+                     });
+                var resCode2 = await _dbContext.SaveChangesAsync();
+
+                return new UserEntity
+                {
+                    Id = result.Entity.Id,
+                    Created_Date = result.Entity.Created_Date,
+                    Email = result.Entity.Email,
+                    Name = result.Entity.Name,
+                    Password = result.Entity.Password,
+                    Phone = result.Entity.Phone,
+                    Picture = result.Entity.Picture,
+                    Profiles = user.Profiles
+                };
+            }
         }
 
         public async Task UpdateUser(User user)

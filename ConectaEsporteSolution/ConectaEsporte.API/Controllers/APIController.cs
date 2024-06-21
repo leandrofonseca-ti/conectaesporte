@@ -1,5 +1,6 @@
 ﻿using ConectaEsporte.API.Models;
 using ConectaEsporte.API.Setup;
+using ConectaEsporte.Core;
 using ConectaEsporte.Core.Helper;
 using ConectaEsporte.Core.Models;
 using ConectaEsporte.Core.Services.Repositories;
@@ -122,7 +123,19 @@ namespace ConectaEsporte.API.Controllers
             var json = new LargeJsonResult();
             try
             {
-                var result = await _userRepository.AddOrUpdate(login.Key, login.Name, login.Email, login.Fcm, login.Phone, login.PhotoUrl);
+                var result = await _userRepository.AddOrUpdateMobile(new ConectaEsporte.Core.Models.UserEntity()
+                {
+                    KeyMobile = login.Key,
+                    Fcm = login.Fcm,
+                    Email = login.Email,
+                    Name = login.Name,
+                    Password = string.Empty,
+                    Phone = login.Phone,
+                    Picture = login.PhotoUrl,// "https://cdn.icon-icons.com/icons2/1446/PNG/512/22278owl_98790.png",
+                    Created_Date = DateTime.Now,
+                    Profiles = new List<ConectaEsporte.Core.Models.Profile> { new ConectaEsporte.Core.Models.Profile() { Id = EnumProfile.Aluno.GetHashCode() } }
+                });
+
                 var resultFinal = new UserModel();
                 if (result != null && result.Id > 0)
                 {
@@ -181,7 +194,7 @@ namespace ConectaEsporte.API.Controllers
                 if (result != null)
                 {
                     var dtNow = DateTime.Now;
-                    if (dtNow  <= result.Finished)
+                    if (result.Free || dtNow <= result.Finished)
                     {
                         active = true;
                     }
@@ -189,14 +202,15 @@ namespace ConectaEsporte.API.Controllers
                     var r = dtNow.Subtract(result.Created);
                     willexpire = r.TotalDays <= 7;
 
-                    var resultItem = new PlanUserEntity
-                    {
-                        Created = result.Created,
-                        Finished = result.Finished,
-                        Id = result.Id,
-                        PlanId = result.PlanId,
-                        UserId = result.UserId,
-                    };
+                    //var resultItem = new PlanUserEntity
+                    //{
+                    //    Created = result.Created,
+                    //    Finished = result.Finished,
+                    //    Id = result.Id,
+                    //    PlanId = result.PlanId,
+                    //    UserId = result.UserId,
+
+                    //};
 
 
                     json.Value = new
@@ -205,12 +219,12 @@ namespace ConectaEsporte.API.Controllers
                         Data = new PaymentModel
                         {
                             Plans = resultPlanGroup,
-                            PlanSelected = resultItem,
+                            PlanSelected = result,
                             UserEmail = user.Email,
-                            UserId = resultItem.UserId,
+                            UserId = result.UserId,
                             Active = active,
                             WillExpire = willexpire,
-                            Id = resultItem.Id,
+                            Id = result.Id,
                         }
                     };
                 }

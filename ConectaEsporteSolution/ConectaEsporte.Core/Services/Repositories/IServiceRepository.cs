@@ -18,7 +18,7 @@ namespace ConectaEsporte.Core.Services.Repositories
         Task<List<Notification>> ListNotification(string email);
         Task<List<Plan>> ListPlan();
         Task<List<PlanEntity>> ListPlanGroup();
-        Task<PlanUser> GetPlanUser(string email);
+        Task<PlanUserEntity> GetPlanUser(string email);
         Task<int> TotalNotification(string email);
         bool AddNotification(Notification entity);
         Task<bool> UpdateNotificationRead(Notification entity);
