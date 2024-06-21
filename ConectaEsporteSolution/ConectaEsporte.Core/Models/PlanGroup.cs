@@ -16,5 +16,7 @@ namespace ConectaEsporte.Core.Models
         public decimal Price{ get; set; }
         public int  Order { get; set; }
         public bool Active { get; set; }
+
+        public bool Free { get; set; }
     }
 }

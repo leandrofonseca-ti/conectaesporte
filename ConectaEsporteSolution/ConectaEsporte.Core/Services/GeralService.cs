@@ -121,12 +121,24 @@ namespace ConectaEsporte.Core.Services
             return query.Result;
         }
 
-        public async Task<PlanUser> GetPlanUser(string email)
+        public async Task<PlanUserEntity> GetPlanUser(string email)
         {
             var query = (from users in _dbContext.user
-                         join plans in _dbContext.planuser on users.Id equals plans.UserId
+                         join plansuser in _dbContext.planuser on users.Id equals plansuser.UserId
+                         join plan in _dbContext.plan on plansuser.PlanId equals plan.Id
+                         join plansGroup in _dbContext.plangroup on plan.GroupId equals plansGroup.Id
                          where users.Email == email
-                         select plans).ToListAsync();
+                         select new PlanUserEntity
+                         {
+                             Created = plansuser.Created,
+                             Finished = plansuser.Finished,
+                             Free = plansGroup.Free,
+                             Id = plansuser.Id,
+                             PlanId = plansuser.PlanId,
+                             GroupName = plansGroup.Name,
+                             Name = plan.Name,
+                             UserId = plansuser.UserId
+                         }).ToListAsync();
 
             return query.Result.FirstOrDefault();
         }

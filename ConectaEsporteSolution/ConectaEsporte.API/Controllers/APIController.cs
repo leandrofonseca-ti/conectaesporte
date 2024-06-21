@@ -170,7 +170,6 @@ namespace ConectaEsporte.API.Controllers
             var json = new LargeJsonResult();
             try
             {
-
                 var resultPlanGroup = await _serviceRepository.ListPlanGroup();
 
                 var result = await _serviceRepository.GetPlanUser(user.Email);
@@ -182,7 +181,7 @@ namespace ConectaEsporte.API.Controllers
                 if (result != null)
                 {
                     var dtNow = DateTime.Now;
-                    if (result.Created >= dtNow && result.Created <= dtNow)
+                    if (dtNow  <= result.Finished)
                     {
                         active = true;
                     }
