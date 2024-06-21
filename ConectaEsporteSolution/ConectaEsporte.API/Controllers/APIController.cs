@@ -82,39 +82,7 @@ namespace ConectaEsporte.API.Controllers
 
         #endregion
 
-        //[Authorize]
-        //[HttpGet("Authenticate/Status")]
-        //public async Task<IActionResult> AuthenticateStatus()
-        //{
-        //    var json = new LargeJsonResult();
-        //    IActionResult response = Unauthorized();
-        //    try
-        //    {
-        //        response = Ok(true);
-
-        //        json.Value = new
-        //        {
-        //            StatusCode = HttpStatusCode.OK,
-        //        };
-        //    }
-        //    catch (Exception ex) { }  
-
-        //    try
-        //    {
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        json.Value = new
-        //        {
-        //            StatusCode = HttpStatusCode.BadRequest,
-        //            Data = ex
-        //        };
-        //    }
-        //    return json;
-        //}
-
+       
 
         [Authorize]
         [HttpPost("Authenticate/Login")]
