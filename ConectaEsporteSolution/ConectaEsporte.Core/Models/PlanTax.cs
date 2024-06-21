@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConectaEsporte.Core.Models
 {
-	public class Plan
+	public class PlanTax
 	{
 		public long Id { get; set; }
-
-        public long GroupId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price{ get; set; }
-        public int  Order { get; set; }
-        public bool Active { get; set; }
+        public decimal Price { get; set; }
 
-        public int PeriodMonth { get; set; }
+        public string Description { get; set; }
+        public bool Active { get; set; }
     }
 }

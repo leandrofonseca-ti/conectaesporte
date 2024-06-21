@@ -19,6 +19,7 @@ namespace ConectaEsporte.Core.Database
 		public DbSet<User> user { get; set; }
         public DbSet<Notification> notification { get; set; }
         public DbSet<Plan> plan { get; set; }
+        public DbSet<PlanTax> plantax { get; set; }
         public DbSet<PlanGroup> plangroup { get; set; }
         public DbSet<PlanUser> planuser { get; set; }
         public DbSet<Checkin> checkin { get; set; }

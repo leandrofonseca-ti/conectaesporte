@@ -83,14 +83,32 @@ namespace ConectaEsporte.Core.Services
         }
 
 
+
+        public async Task<PlanBuildEntity> GetPlanBuild(string email, long planId)
+        {
+            var plan = await _dbContext.plan.Where(t => t.Id == planId && t.Active == true).SingleOrDefaultAsync();
+            var plantax = await _dbContext.plantax.Where(t => t.Id == planId && t.Active == true).SingleOrDefaultAsync();
+
+            if (plantax != null && plan != null)
+            {
+                var tax = plantax.Price;
+                var price = plan.Price;
+                var dtIni = DateTime.Now;
+                var dtFim = dtIni.AddMonths(plan.PeriodMonth);
+                return new PlanBuildEntity() {
+                    Price = price,
+                    Tax = tax,
+                    Total = price + (price * tax),
+                    Created = dtIni,
+                    Finished = dtFim,
+                };
+            }
+
+            return new PlanBuildEntity();
+        }
+
         public async Task<List<Plan>> ListPlan()
         {
-
-            //var query = (from groups in _dbContext.plangroup
-            //             join plans in _dbContext.plan on groups.Id equals plans.GroupId                         
-            //             select plans).ToListAsync();
-
-
             return await _dbContext.plan.Where(t => t.Active == true).OrderBy(t => t.Order).ToListAsync();
         }
 

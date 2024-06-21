@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Text;
@@ -82,7 +83,7 @@ namespace ConectaEsporte.API.Controllers
 
         #endregion
 
-       
+
 
         [Authorize]
         [HttpPost("Authenticate/Login")]
@@ -227,7 +228,54 @@ namespace ConectaEsporte.API.Controllers
         }
 
 
+        [Authorize]
+        [HttpPost("Payment/Build")]
+        public async Task<IActionResult> PaymentBuild(LoginPaymentModel user)
+        {
+            var json = new LargeJsonResult();
+            try
+            {
+                var result = await _serviceRepository.GetPlanBuild(user.Email, user.PlanId);
 
+                if (result != null)
+                {
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = new PaymentBuildModel
+                        {
+                            Created = result.Created,
+                            Finished = result.Finished,
+                            Price = result.Price,
+                            Tax = result.Tax,
+                            Total = result.Total,
+                            Id = result.Id,
+                        }
+                    };
+                }
+                else
+                {
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = new PaymentBuildModel()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
+        }
+
+
+
+ 
         [Authorize]
         [HttpPost("Dashboard/Get")]
         public async Task<IActionResult> DashboardGet(LoginMailModel user)

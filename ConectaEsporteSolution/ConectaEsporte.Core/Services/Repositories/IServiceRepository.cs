@@ -23,5 +23,6 @@ namespace ConectaEsporte.Core.Services.Repositories
         bool AddNotification(Notification entity);
         Task<bool> UpdateNotificationRead(Notification entity);
         Task<bool> RemoveNotification(long id);
+        Task<PlanBuildEntity> GetPlanBuild(string email, long planId);
     }
 }

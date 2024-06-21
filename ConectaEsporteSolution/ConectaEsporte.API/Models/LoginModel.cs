@@ -25,8 +25,16 @@ namespace ConectaEsporte.API.Models
     }
 
 
-
     [Serializable]
+    public class LoginPaymentModel
+    {
+        [Required]
+        public string Email { get; set; }
+        public long PlanId { get; set; }
+    }
+    
+
+        [Serializable]
     public class LoginCheckinModel
     {
         [Required]
