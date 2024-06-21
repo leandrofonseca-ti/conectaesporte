@@ -87,7 +87,7 @@ namespace ConectaEsporte.Core.Services
         public async Task<PlanBuildEntity> GetPlanBuild(string email, long planId)
         {
             var plan = await _dbContext.plan.Where(t => t.Id == planId && t.Active == true).SingleOrDefaultAsync();
-            var plantax = await _dbContext.plantax.Where(t => t.Id == planId && t.Active == true).SingleOrDefaultAsync();
+            var plantax = await _dbContext.plantax.Where(t => t.Name == "PLAN_TAX" && t.Active == true).SingleOrDefaultAsync();
 
             if (plantax != null && plan != null)
             {
@@ -95,10 +95,14 @@ namespace ConectaEsporte.Core.Services
                 var price = plan.Price;
                 var dtIni = DateTime.Now;
                 var dtFim = dtIni.AddMonths(plan.PeriodMonth);
+
+                var taxFinal = decimal.Round((price * tax), 2, MidpointRounding.AwayFromZero);
+
+                var totalFinal = decimal.Round(price + (price * tax), 2, MidpointRounding.AwayFromZero);
                 return new PlanBuildEntity() {
                     Price = price,
-                    Tax = tax,
-                    Total = price + (price * tax),
+                    Tax = taxFinal,
+                    Total = totalFinal,
                     Created = dtIni,
                     Finished = dtFim,
                 };
