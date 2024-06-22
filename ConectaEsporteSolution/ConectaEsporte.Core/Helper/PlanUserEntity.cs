@@ -12,7 +12,8 @@ namespace ConectaEsporte.Core.Helper
         public long UserId { get; set; }
         public long PlanId { get; set; }
 
-        public bool Free { get; set; }        
+        public bool Free { get; set; }
+
         public string GroupName { get; set; }
         public string Name { get; set; }
 

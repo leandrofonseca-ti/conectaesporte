@@ -23,6 +23,10 @@ namespace ConectaEsporte.API.Models
 
         public int TotalNotification { get; set; }
 
+        private  decimal _amount {  get; set; }
+        public decimal Amount { get { return decimal.Round(_amount, 2, MidpointRounding.AwayFromZero); } set { _amount = value; } }
+        public string AmountFmt { get { return string.Format("{0:0,0.00}", Amount); } }
+        public bool IsFree { get; set; }
         public List<CheckinDetailModel> ListToday { get; set; } = new List<CheckinDetailModel>();
 
         public List<CheckinDetailModel> ListNext { get; set; } = new List<CheckinDetailModel>();
@@ -59,15 +63,15 @@ namespace ConectaEsporte.API.Models
         public string Name { get; set; }
     }
 
- 
+
 
     [Serializable]
     public class CheckinDetailModel
     {
         public CheckinDetailModel() { }
-        public long id {  get; set; }
+        public long id { get; set; }
         public required string Title { get; set; }
-        public required string FromEmail{ get; set; }
+        public required string FromEmail { get; set; }
         public required string FromName { get; set; }
 
         public DateTime BookedDt { get; set; }

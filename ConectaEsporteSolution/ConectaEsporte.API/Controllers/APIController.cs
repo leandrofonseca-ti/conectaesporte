@@ -341,6 +341,11 @@ namespace ConectaEsporte.API.Controllers
 
                 var totalCheckin = listToday.Count + listNext.Count;
 
+
+                var resultUser = await _serviceRepository.GetPlanUser(user.Email);
+
+                // TODO: Saldo calcular
+                var resultAmount = 0;
                 json.Value = new
                 {
                     StatusCode = HttpStatusCode.OK,
@@ -354,7 +359,9 @@ namespace ConectaEsporte.API.Controllers
                         ListNext = listNext,
                         ListToday = listToday,
                         TotalCheckin = totalCheckin,
-                        TotalNotification = totalNotification
+                        TotalNotification = totalNotification,
+                        Amount = resultAmount,
+                        IsFree = resultUser.Free
                     }
                 };
 
