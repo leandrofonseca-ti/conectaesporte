@@ -19,7 +19,7 @@ namespace ConectaEsporte.Core.Helper
         public string Title { get; set; }
         public string Subtitle { get; set; }
 
-        public LocalEntity Local { get; set; } = new LocalEntity();
+        public LocalEntity Local { get; set; } = null;
 
         public List<UserViewEntity> People { get; set; } = new List<UserViewEntity>();
         
