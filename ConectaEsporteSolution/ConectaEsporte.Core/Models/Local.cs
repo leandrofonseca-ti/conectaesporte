@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConectaEsporte.Core.Models
 {
-	public class PlanGroup
+	public class Local
 	{
 		public long Id { get; set; }
 
-        public string ProfileIds { get; set; }
-        public string Name { get; set; }
+        public long OwnerId { get; set; }
+        public string Title { get; set; }
+        public string Picture { get; set; }
         public string Description { get; set; }
-        public decimal Price{ get; set; }
-        public int  Order { get; set; }
-        public bool Active { get; set; }
-
     }
 }

@@ -128,21 +128,6 @@ namespace ConectaEsporte.API.Controllers
             return json;
         }
 
-        /*
-        [Authorize]
-        [HttpPost("Authenticate/SyncLogin")]
-        public async Task<IActionResult> SyncLogin(UserModel login)
-        {
-            var json = new LargeJsonResult();
-
-            var result = await _userRepository.UpdateUserMobile(login.Key, login.Name, login.Email, login.Fcm, login.Phone, login.Picture);
-            if (result != null && result.Id > 0)
-            {
-                json.Value = new UserModel { Id = result.Id, Name = result.Name, Email = result.Email };
-            }
-            return json;
-        }
-        */
 
 
         [Authorize]
@@ -153,35 +138,13 @@ namespace ConectaEsporte.API.Controllers
             try
             {
                 var resultPlanGroup = await _serviceRepository.ListPlanGroup();
-
                 var result = await _serviceRepository.GetPlanUser(user.Email);
-
                 var active = false;
                 var willexpire = false;
-
 
                 if (result != null)
                 {
                     var dtNow = DateTime.Now;
-                    if (result.Free || dtNow <= result.Finished)
-                    {
-                        active = true;
-                    }
-                    if (!result.Free)
-                    {
-                        var r = dtNow.Subtract(result.Finished);
-                        willexpire = r.TotalDays <= 7;
-                    }
-                    //var resultItem = new PlanUserEntity
-                    //{
-                    //    Created = result.Created,
-                    //    Finished = result.Finished,
-                    //    Id = result.Id,
-                    //    PlanId = result.PlanId,
-                    //    UserId = result.UserId,
-
-                    //};
-
 
                     json.Value = new
                     {
@@ -213,6 +176,49 @@ namespace ConectaEsporte.API.Controllers
                             WillExpire = willexpire,
                             Id = 0,
                         }
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
+        }
+
+
+
+        [Authorize]
+        [HttpPost("Payment/Add")]
+        public async Task<IActionResult> PaymentAdd(LoginPaymentSetModel user)
+        {
+            var json = new LargeJsonResult();
+            try
+            {
+
+
+                // TODO: API PAGAMENTO
+                var result = await _serviceRepository.UpdatePaymentUser(user.Email, user.Amount, user.Description, user.OwnerId);
+
+                if (result != null)
+                {
+                    await _serviceRepository.UpdateAmountPayment(user.Email);
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = result
+                    };
+                }
+                else
+                {
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = false
                     };
                 }
             }
@@ -275,7 +281,7 @@ namespace ConectaEsporte.API.Controllers
 
 
 
- 
+
         [Authorize]
         [HttpPost("Dashboard/Get")]
         public async Task<IActionResult> DashboardGet(LoginMailModel user)
@@ -341,11 +347,13 @@ namespace ConectaEsporte.API.Controllers
 
                 var totalCheckin = listToday.Count + listNext.Count;
 
-
                 var resultUser = await _serviceRepository.GetPlanUser(user.Email);
 
-                // TODO: Saldo calcular
-                var resultAmount = 0;
+                var listEventTop = await _serviceRepository.ListRoomType(user.Email, EnumTypeRoom.Event, 0);
+
+                var listClassTop = await _serviceRepository.ListRoomType(user.Email, EnumTypeRoom.Class, 0);
+
+
                 json.Value = new
                 {
                     StatusCode = HttpStatusCode.OK,
@@ -360,8 +368,9 @@ namespace ConectaEsporte.API.Controllers
                         ListToday = listToday,
                         TotalCheckin = totalCheckin,
                         TotalNotification = totalNotification,
-                        Amount = resultAmount,
-                        IsFree = resultUser.Free
+                        Amount = resultUser.Amount,
+                        ListEventTop = listEventTop,
+                        ListClassTop = listClassTop
                     }
                 };
 
@@ -433,6 +442,78 @@ namespace ConectaEsporte.API.Controllers
             }
             return json;
         }
+
+
+
+
+        [Authorize]
+        [HttpPost("Event/List")]
+        public async Task<IActionResult> EventList(ListEventModel user)
+        {
+            var json = new LargeJsonResult();
+            try
+            {
+                var result = new List<RoomClassEntity>();
+
+                if (user.Type.Equals("CLASS", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    result = await _serviceRepository.ListRoomType(user.Email, EnumTypeRoom.Class, user.PageIndex);
+                }
+
+                if (user.Type.Equals("EVENT", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    result = await _serviceRepository.ListRoomType(user.Email, EnumTypeRoom.Event, user.PageIndex);
+                }
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = result,
+                    PageIndex = user.PageIndex,
+                    PageNext = user.PageIndex + 1
+                };
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
+        }
+
+
+        [Authorize]
+        [HttpPost("Event/Get")]
+        public async Task<IActionResult> EventGet(ListEventDetailModel user)
+        {
+            var json = new LargeJsonResult();
+            try
+            {
+                var result = new RoomClassEntity();
+
+                result = await _serviceRepository.GetRoomType(user.Email, user.Id);
+
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Data = result
+                };
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
+        }
+
+
 
 
         [Authorize]
@@ -530,7 +611,7 @@ namespace ConectaEsporte.API.Controllers
 
         [Authorize]
         [HttpPost("Notification/List")]
-        public async Task<IActionResult> GetNotifications(LoginMailModel user)
+        public async Task<IActionResult> NotificationList(LoginMailModel user)
         {
             var json = new LargeJsonResult();
             try

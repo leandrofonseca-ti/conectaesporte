@@ -12,4 +12,10 @@ namespace ConectaEsporte.Core
 		Professor = 2,
 		Aluno = 3,
 	}
+
+	public enum EnumTypeRoom
+	{
+		Class  = 1,
+		Event = 2,
+	}
 }

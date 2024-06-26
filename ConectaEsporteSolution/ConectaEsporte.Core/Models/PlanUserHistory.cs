@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace ConectaEsporte.Core.Models
 {
-    public class PlanUser
+    public class PlanUserHistory
     {
         public long Id { get; set; }
         public long UserId { get; set; }
-        public decimal Total { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Finished { get; set; }
+        public long OwnerId { get; set; }
 
     }
 }

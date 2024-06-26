@@ -24,6 +24,19 @@ namespace ConectaEsporte.API.Models
 
     }
 
+    [Serializable]
+    public class LoginPaymentSetModel
+    {
+        [Required]
+        public string Email { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public string Description { get; set; }
+
+        public long OwnerId { get; set; }
+    }
+
 
     [Serializable]
     public class LoginPaymentModel
@@ -32,9 +45,9 @@ namespace ConectaEsporte.API.Models
         public string Email { get; set; }
         public long PlanId { get; set; }
     }
-    
 
-        [Serializable]
+
+    [Serializable]
     public class LoginCheckinModel
     {
         [Required]
@@ -45,4 +58,27 @@ namespace ConectaEsporte.API.Models
         public bool Booked { get; set; }
 
     }
+
+
+    [Serializable]
+    public class ListEventModel
+    {
+        [Required]
+        public string Email { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public string Type { get; set; }
+    }
+
+    [Serializable]
+    public class ListEventDetailModel
+    {
+        [Required]
+        public string Email { get; set; }
+
+        public long Id { get; set; }
+
+    }
+
 }

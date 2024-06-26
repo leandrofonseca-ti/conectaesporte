@@ -2,11 +2,13 @@
 using ConectaEsporte.Core.Helper;
 using ConectaEsporte.Core.Models;
 using ConectaEsporte.Core.Services.Repositories;
+using MercadoPago.Resource.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +22,8 @@ namespace ConectaEsporte.Core.Services
             _dbContext = context;
         }
 
-        public async Task<User> GetUserByEmail(string email)
+
+        public async Task<Models.User> GetUserByEmail(string email)
         {
             return await _dbContext.user.Where(t => t.Email == email).FirstOrDefaultAsync();
         }
@@ -82,6 +85,198 @@ namespace ConectaEsporte.Core.Services
             return await _dbContext.notification.Where(t => t.Email == email).OrderBy(t => t.Created).ToListAsync();
         }
 
+        public async Task<bool> UpdatePaymentUser(string email, decimal amount, string description, long ownerid)
+        {
+            var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+
+            if (userEntity != null)
+            {
+                _dbContext.planuserhistory.Add(new PlanUserHistory()
+                {
+                    Created = DateTime.Now,
+                    Description = description,
+                    OwnerId = ownerid,
+                    UserId = userEntity.Id,
+                    Amount = amount
+                });
+                _dbContext.SaveChanges();
+
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public async Task<RoomClassEntity> GetRoomType(string email, long id)
+        {
+            var result = await (from rc in _dbContext.roomclass
+                                join rcu in _dbContext.roomclassuser on rc.Id equals rcu.RoomClassId
+                                join teacher in _dbContext.user on rc.OwnerId equals teacher.Id
+                                where rc.Id == id
+                                select new RoomClassEntity()
+                                {
+                                    Id = rc.Id,
+                                    Title = rc.Title,
+                                    Subtitle = teacher.Name,
+                                    Picture = teacher.Picture,
+                                    LocalId = rc.LocalId,
+                                    OwnerId = rc.OwnerId,
+                                })
+                   .FirstOrDefaultAsync();
+
+            if (result != null && result.Id > 0)
+            {
+                result.Local = await GetLocalEntity(result.LocalId);
+            }
+
+
+
+            if (result != null && result.Id > 0)
+            {
+                result.People = await ListPeopleEntity(result.Id);
+            }
+            return result;
+
+        }
+
+        public async Task<List<UserViewEntity>> ListPeopleEntity(long roomid)
+        {
+            var query = await (from rcu in _dbContext.roomclassuser
+                               join usr in _dbContext.user on rcu.UserId equals usr.Id
+                               where rcu.RoomClassId == roomid // && rcu.Confirmed == confirmed
+                               select new UserViewEntity()
+                               {
+                                   Title = usr.Name,
+                                   Picture = usr.Picture,
+                                   OwnerId = usr.Id,
+                                   Id = usr.Id,
+                                   Confirmed = rcu.Confirmed
+                               })
+                        .OrderBy(y => y.Title)
+                        .ToListAsync();
+
+            return query;
+        }
+
+        public async Task<List<UserViewEntity>> ListPeopleEntity(long roomid, bool confirmed)
+        {
+            var query = await (from rcu in _dbContext.roomclassuser
+                               join usr in _dbContext.user on rcu.UserId equals usr.Id
+                               where rcu.RoomClassId == roomid && rcu.Confirmed == confirmed
+                               select new UserViewEntity()
+                               {
+                                   Title = usr.Name,
+                                   Picture = usr.Picture,
+                                   OwnerId = usr.Id,
+                                   Id = usr.Id,
+                                   Confirmed = rcu.Confirmed
+                               })
+                        .OrderBy(y => y.Title)
+                        .ToListAsync();
+
+            return query;
+        }
+
+
+        private async Task<LocalEntity> GetLocalEntity(long localId)
+        {
+            var entity = await _dbContext.local.Where(t => t.Id == localId).SingleOrDefaultAsync();
+            if (entity != null)
+            {
+                return new LocalEntity()
+                {
+                    Description = entity.Description,
+                    Id = entity.Id,
+                    OwnerId = entity.OwnerId,
+                    Picture = entity.Picture,
+                    Title = entity.Title,
+                };
+            }
+            return null;
+        }
+
+        public async Task<List<RoomClassEntity>> ListRoomType(string email, EnumTypeRoom eventEnum, int pageIndex)
+        {
+            var result = new List<RoomClassEntity>();
+            var top = 10;
+            if (eventEnum == EnumTypeRoom.Class)
+            {
+                var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+
+                if (userEntity != null)
+                {
+                    result = await (from rc in _dbContext.roomclass
+                                    join rcu in _dbContext.roomclassuser on rc.Id equals rcu.RoomClassId
+                                    join teacher in _dbContext.user on rc.OwnerId equals teacher.Id
+                                    where rc.Type == "CLASS" && rcu.UserId == userEntity.Id
+                                    select new RoomClassEntity()
+                                    {
+                                        Id = rc.Id,
+                                        Title = rc.Title,
+                                        Subtitle = teacher.Name,
+                                        Picture = teacher.Picture,
+                                    })
+                   .OrderBy(y => y.Title)
+                   .Page(top, pageIndex)
+                   .ToListAsync();
+                }
+
+            }
+
+            if (eventEnum == EnumTypeRoom.Event)
+            {
+                var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+
+                if (userEntity != null)
+                {
+                    result = await (from rc in _dbContext.roomclass
+                                    join rcu in _dbContext.roomclassuser on rc.Id equals rcu.RoomClassId
+                                    join teacher in _dbContext.user on rc.OwnerId equals teacher.Id
+                                    where rc.Type == "EVENT" && rcu.UserId == userEntity.Id
+                                    select new RoomClassEntity()
+                                    {
+                                        Id = rc.Id,
+                                        Title = rc.Title,
+                                        Subtitle = teacher.Name,
+                                        Picture = teacher.Picture,
+                                    })
+                   .OrderBy(y => y.Title)
+                   .Page(top, pageIndex)
+                   .ToListAsync();
+                }
+            }
+
+            return result;
+        }
+        public async Task<bool> UpdateAmountPayment(string email)
+        {
+            var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+
+            if (userEntity != null)
+            {
+                var entities = await _dbContext.planuserhistory.Where(t => t.UserId == userEntity.Id).ToListAsync();
+
+                if (entities != null)
+                {
+                    decimal total = 0;
+                    entities.ForEach(t =>
+                    {
+                        total += t.Amount;
+                    });
+
+                    var userEntityPlan = await _dbContext.planuser.Where(t => t.UserId == userEntity.Id).SingleOrDefaultAsync();
+
+                    if (userEntityPlan != null)
+                    {
+                        userEntityPlan.Total = total;
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
 
 
         public async Task<PlanBuildEntity> GetPlanBuild(string email, long planId)
@@ -99,7 +294,8 @@ namespace ConectaEsporte.Core.Services
                 var taxFinal = decimal.Round((price * tax), 2, MidpointRounding.AwayFromZero);
 
                 var totalFinal = decimal.Round(price + (price * tax), 2, MidpointRounding.AwayFromZero);
-                return new PlanBuildEntity() {
+                return new PlanBuildEntity()
+                {
                     Price = price,
                     Tax = taxFinal,
                     Total = totalFinal,
@@ -147,19 +343,13 @@ namespace ConectaEsporte.Core.Services
         {
             var query = (from users in _dbContext.user
                          join plansuser in _dbContext.planuser on users.Id equals plansuser.UserId
-                         join plan in _dbContext.plan on plansuser.PlanId equals plan.Id
-                         join plansGroup in _dbContext.plangroup on plan.GroupId equals plansGroup.Id
                          where users.Email == email
                          select new PlanUserEntity
                          {
                              Created = plansuser.Created,
                              Finished = plansuser.Finished,
-                             Free = plansGroup.Free,
+                             Amount = plansuser.Total,
                              Id = plansuser.Id,
-                             PlanId = plansuser.PlanId,
-                             GroupName = plansGroup.Name,
-                             Name = plan.Name,
-                             Description = plan.Description,
                              UserId = plansuser.UserId
                          }).ToListAsync();
 
@@ -186,5 +376,7 @@ namespace ConectaEsporte.Core.Services
 
             return false;
         }
+
+
     }
 }

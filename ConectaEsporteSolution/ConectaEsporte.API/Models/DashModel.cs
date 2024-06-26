@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using ConectaEsporte.Core.Helper;
+using System.Globalization;
 
 namespace ConectaEsporte.API.Models
 {
@@ -18,7 +19,9 @@ namespace ConectaEsporte.API.Models
 
         public List<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
 
+        public List<RoomClassEntity> ListEventTop {  get; set; } = new List<RoomClassEntity>();
 
+        public List<RoomClassEntity> ListClassTop { get; set; } = new List<RoomClassEntity>();
         public int TotalCheckin { get; set; }
 
         public int TotalNotification { get; set; }
@@ -26,7 +29,6 @@ namespace ConectaEsporte.API.Models
         private  decimal _amount {  get; set; }
         public decimal Amount { get { return decimal.Round(_amount, 2, MidpointRounding.AwayFromZero); } set { _amount = value; } }
         public string AmountFmt { get { return string.Format("{0:0,0.00}", Amount); } }
-        public bool IsFree { get; set; }
         public List<CheckinDetailModel> ListToday { get; set; } = new List<CheckinDetailModel>();
 
         public List<CheckinDetailModel> ListNext { get; set; } = new List<CheckinDetailModel>();
@@ -81,4 +83,5 @@ namespace ConectaEsporte.API.Models
 
         public bool Booked { get; set; }
     }
+
 }
