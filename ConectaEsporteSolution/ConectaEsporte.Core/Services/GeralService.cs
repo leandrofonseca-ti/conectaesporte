@@ -215,7 +215,7 @@ namespace ConectaEsporte.Core.Services
                                         Id = rc.Id,
                                         Title = rc.Title,
                                         Subtitle = teacher.Name,
-                                        Picture = teacher.Picture,
+                                        Picture = rc.Picture,
                                     })
                    .OrderBy(y => y.Title)
                    .Page(top, pageIndex)

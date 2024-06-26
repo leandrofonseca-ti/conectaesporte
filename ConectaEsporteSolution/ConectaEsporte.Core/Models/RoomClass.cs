@@ -15,6 +15,8 @@ namespace ConectaEsporte.Core.Models
 
 		public string Type { get; set; }
 		public string SubTitle { get; set; }
-		public bool Active { get; set; }
+
+        public string Picture { get; set; }
+        public bool Active { get; set; }
 	}
 }
