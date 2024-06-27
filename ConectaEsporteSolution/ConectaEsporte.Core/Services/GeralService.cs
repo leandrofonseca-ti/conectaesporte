@@ -249,6 +249,56 @@ namespace ConectaEsporte.Core.Services
 
             return result;
         }
+
+
+        public async Task<int> TotalRoomType(string email, EnumTypeRoom eventEnum)
+        {
+            var result = 0;
+            if (eventEnum == EnumTypeRoom.Class)
+            {
+                var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+
+                if (userEntity != null)
+                {
+                    result = await (from rc in _dbContext.roomclass
+                                    join rcu in _dbContext.roomclassuser on rc.Id equals rcu.RoomClassId
+                                    join teacher in _dbContext.user on rc.OwnerId equals teacher.Id
+                                    where rc.Type == "CLASS" && rcu.UserId == userEntity.Id
+                                    select new RoomClassEntity()
+                                    {
+                                        Id = rc.Id,
+                                        Title = rc.Title,
+                                        Subtitle = teacher.Name,
+                                        Picture = rc.Picture,
+                                    })
+                   .CountAsync();
+                }
+
+            }
+
+            if (eventEnum == EnumTypeRoom.Event)
+            {
+                var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+
+                if (userEntity != null)
+                {
+                    result = await (from rc in _dbContext.roomclass
+                                    join rcu in _dbContext.roomclassuser on rc.Id equals rcu.RoomClassId
+                                    join teacher in _dbContext.user on rc.OwnerId equals teacher.Id
+                                    where rc.Type == "EVENT" && rcu.UserId == userEntity.Id
+                                    select new RoomClassEntity()
+                                    {
+                                        Id = rc.Id,
+                                        Title = rc.Title,
+                                        Subtitle = teacher.Name,
+                                        Picture = teacher.Picture,
+                                    })
+                   .CountAsync();
+                }
+            }
+
+            return result;
+        }
         public async Task<bool> UpdateAmountPayment(string email)
         {
             var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();

@@ -353,6 +353,9 @@ namespace ConectaEsporte.API.Controllers
 
                 var listClassTop = await _serviceRepository.ListRoomType(user.Email, EnumTypeRoom.Class, 0);
 
+                var totalEvent = await _serviceRepository.TotalRoomType(user.Email, EnumTypeRoom.Event);
+
+                var totalClass = await _serviceRepository.TotalRoomType(user.Email, EnumTypeRoom.Class);
 
                 json.Value = new
                 {
@@ -368,6 +371,8 @@ namespace ConectaEsporte.API.Controllers
                         ListToday = listToday,
                         TotalCheckin = totalCheckin,
                         TotalNotification = totalNotification,
+                        TotalClass = totalClass,
+                        TotalEvent = totalEvent,
                         Amount = resultUser.Amount,
                         ListEventTop = listEventTop,
                         ListClassTop = listClassTop

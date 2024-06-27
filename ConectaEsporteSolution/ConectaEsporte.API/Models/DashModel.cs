@@ -25,6 +25,8 @@ namespace ConectaEsporte.API.Models
         public int TotalCheckin { get; set; }
 
         public int TotalNotification { get; set; }
+        public int TotalClass { get; set; }
+        public int TotalEvent { get; set; }
 
         private  decimal _amount {  get; set; }
         public decimal Amount { get { return decimal.Round(_amount, 2, MidpointRounding.AwayFromZero); } set { _amount = value; } }
