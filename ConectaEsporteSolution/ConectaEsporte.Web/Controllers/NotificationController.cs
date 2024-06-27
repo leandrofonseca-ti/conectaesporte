@@ -22,7 +22,8 @@ namespace ConectaEsporte.Web.Controllers
                 string Email = "leandrofonseca.ti@gmail.com";
                 string Token = "879D4D4F17C748A18D4DB24C029E5E31";
                 string TransacaoID = Request.Form["notificationCode"];//.Params["notificationCode"];
-                string Pagina = "https://ws.pagseguro.uol.com.br/v2/transactions/notifications/" + TransacaoID + "?email=" + Email + "&token=" + Token;
+                //string Pagina = "https://ws.pagseguro.uol.com.br/v2/transactions/notifications/" + TransacaoID + "?email=" + Email + "&token=" + Token;
+                string Pagina = "https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/notifications/" + TransacaoID + "?email=" + Email + "&token=" + Token;
                 XElement xml = XElement.Load(Pagina);
 
                 // Dados Gerais do Pedido
