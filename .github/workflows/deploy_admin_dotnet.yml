@@ -4,7 +4,7 @@ on:
    #   - main
   workflow_dispatch:
   
-name: Deploy Web (.NET) - Admin
+name: Deploy Admin (.NET)
 
 env:
   VERSION_NAME: WebProd
