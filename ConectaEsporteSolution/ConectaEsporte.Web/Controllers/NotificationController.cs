@@ -1,11 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ConectaEsporte.Web.Models;
 using System.Xml.Linq;
+using ConectaEsporte.Core.Services.Repositories;
 
 namespace ConectaEsporte.Web.Controllers
 {
     public class NotificationController : Controller
     {
+
+
+        private readonly IServiceRepository _serviceRepository;
+        public NotificationController(IServiceRepository serviceRepository)
+        {
+            _serviceRepository = serviceRepository;
+
+        }
+
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -70,6 +81,10 @@ namespace ConectaEsporte.Web.Controllers
                     });
                 }
 
+
+                // TODO: API PAGAMENTO
+                //var result = _serviceRepository.UpdatePaymentUser(user.Email, user.Amount, user.Description, user.OwnerId);
+                //_serviceRepository.UpdateAmountPayment(user.Email);
 
                 return new JsonResult(new
                 {
