@@ -29,6 +29,8 @@ namespace ConectaEsporte.Core.Services.Repositories
         Task<bool> UpdateAmountPayment(string email);
 
         Task<List<RoomClassEntity>> ListRoomType(string email, EnumTypeRoom eventEnum, int pageIndex);
+
+        Task<int> TotalRoomType(string email, EnumTypeRoom eventEnum);
         Task<RoomClassEntity> GetRoomType(string email, long id);
         Task<List<UserViewEntity>> ListPeopleEntity(long roomid);
         Task<List<UserViewEntity>> ListPeopleEntity(long roomid, bool confirmed);
