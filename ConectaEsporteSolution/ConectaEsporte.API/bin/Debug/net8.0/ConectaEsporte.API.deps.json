@@ -9,6 +9,7 @@
       "ConectaEsporte.API/1.0.0": {
         "dependencies": {
           "ConectaEsporte.Core": "1.0.0",
+          "ConectaEsporte.Uol": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.6",
           "Microsoft.AspNetCore.OpenApi": "8.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.6",
@@ -406,6 +407,19 @@
         "runtime": {
           "ConectaEsporte.Core.dll": {}
         }
+      },
+      "ConectaEsporte.Uol/1.0.0": {
+        "dependencies": {
+          "Uol.PagSeguro.NET8": "1.0.0"
+        },
+        "runtime": {
+          "ConectaEsporte.Uol.dll": {}
+        }
+      },
+      "Uol.PagSeguro.NET8/1.0.0": {
+        "runtime": {
+          "Uol.PagSeguro.NET8.dll": {}
+        }
       }
     }
   },
@@ -703,6 +717,16 @@
       "hashPath": "system.windows.extensions.5.0.0.nupkg.sha512"
     },
     "ConectaEsporte.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ConectaEsporte.Uol/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Uol.PagSeguro.NET8/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

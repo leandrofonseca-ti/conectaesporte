@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uol.PagSeguro\Uol.PagSeguro.csproj" />
+    <ProjectReference Include="..\Uol.PagSeguro.NET8\Uol.PagSeguro.NET8.csproj" />
   </ItemGroup>
 
 </Project>

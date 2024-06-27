@@ -36,5 +36,5 @@ using System;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: InternalsVisibleTo("Uol.PagSeguro.Test")]
+[assembly: InternalsVisibleTo("Uol.PagSeguro.NET8.Test")]
 [assembly: CLSCompliant(true)]

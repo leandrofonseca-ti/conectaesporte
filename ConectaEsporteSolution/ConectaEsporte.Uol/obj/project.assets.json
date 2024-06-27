@@ -2,27 +2,28 @@
   "version": 3,
   "targets": {
     "net8.0": {
-      "Uol.PagSeguro/1.0.0": {
+      "Uol.PagSeguro.NET8/1.0.0": {
         "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
         "compile": {
-          "bin/placeholder/Uol.PagSeguro.dll": {}
+          "bin/placeholder/Uol.PagSeguro.NET8.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Uol.PagSeguro.dll": {}
+          "bin/placeholder/Uol.PagSeguro.NET8.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "Uol.PagSeguro/1.0.0": {
+    "Uol.PagSeguro.NET8/1.0.0": {
       "type": "project",
-      "path": "../Uol.PagSeguro/Uol.PagSeguro.csproj",
-      "msbuildProject": "../Uol.PagSeguro/Uol.PagSeguro.csproj"
+      "path": "../Uol.PagSeguro.NET8/Uol.PagSeguro.NET8.csproj",
+      "msbuildProject": "../Uol.PagSeguro.NET8/Uol.PagSeguro.NET8.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Uol.PagSeguro >= 1.0.0"
+      "Uol.PagSeguro.NET8 >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -57,8 +58,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\Uol.PagSeguro\\Uol.PagSeguro.csproj": {
-              "projectPath": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\Uol.PagSeguro\\Uol.PagSeguro.csproj"
+            "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\Uol.PagSeguro.NET8\\Uol.PagSeguro.NET8.csproj": {
+              "projectPath": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\Uol.PagSeguro.NET8\\Uol.PagSeguro.NET8.csproj"
             }
           }
         }
@@ -88,7 +89,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

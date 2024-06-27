@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ConectaEsporte.Uol/1.0.0": {
+        "dependencies": {
+          "Uol.PagSeguro.NET8": "1.0.0"
+        },
+        "runtime": {
+          "ConectaEsporte.Uol.dll": {}
+        }
+      },
+      "Uol.PagSeguro.NET8/1.0.0": {
+        "runtime": {
+          "Uol.PagSeguro.NET8.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ConectaEsporte.Uol/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Uol.PagSeguro.NET8/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

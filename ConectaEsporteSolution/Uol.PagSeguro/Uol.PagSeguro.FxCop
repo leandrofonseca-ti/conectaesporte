@@ -21,7 +21,7 @@
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
  </ProjectOptions>
  <Targets>
-  <Target Name="$(ProjectDir)/bin/Debug/Uol.PagSeguro.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/bin/Debug/Uol.PagSeguro.NET8.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -63,11 +63,11 @@
      </Message>
     </Messages>
    </Namespace>
-   <Namespace Name="Uol.PagSeguro.Serialization">
+   <Namespace Name="Uol.PagSeguro.NET8.Serialization">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Excluded" Created="2011-07-04 13:47:08Z">
       <Issue>
-       <Item>Uol.PagSeguro.Serialization</Item>
+       <Item>Uol.PagSeguro.NET8.Serialization</Item>
       </Issue>
       <Notes>
        <User Name="tech_muemura">
@@ -78,50 +78,50 @@
      <Message Id="Pag" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2011-07-04 13:47:08Z">
       <Issue Name="Namespace">
        <Item>Pag</Item>
-       <Item>Uol.PagSeguro.Serialization</Item>
+       <Item>Uol.PagSeguro.NET8.Serialization</Item>
       </Issue>
      </Message>
      <Message Id="Seguro" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2011-07-04 13:47:08Z">
       <Issue Name="Namespace">
        <Item>Seguro</Item>
-       <Item>Uol.PagSeguro.Serialization</Item>
+       <Item>Uol.PagSeguro.NET8.Serialization</Item>
       </Issue>
      </Message>
      <Message Id="Uol" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2011-07-04 13:47:08Z">
       <Issue Name="Namespace">
        <Item>Uol</Item>
-       <Item>Uol.PagSeguro.Serialization</Item>
+       <Item>Uol.PagSeguro.NET8.Serialization</Item>
       </Issue>
      </Message>
     </Messages>
    </Namespace>
   </Namespaces>
   <Targets>
-   <Target Name="$(ProjectDir)/bin/Debug/Uol.PagSeguro.dll">
+   <Target Name="$(ProjectDir)/bin/Debug/Uol.PagSeguro.NET8.dll">
     <Modules>
-     <Module Name="uol.pagseguro.dll">
+     <Module Name="Uol.PagSeguro.NET8.dll">
       <Messages>
        <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2011-07-05 01:57:50Z">
         <Issue Name="NoStrongName">
-         <Item>'Uol.PagSeguro.dll'</Item>
+         <Item>'Uol.PagSeguro.NET8.dll'</Item>
         </Issue>
        </Message>
        <Message Id="Pag" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2011-07-04 13:47:08Z">
         <Issue Name="Assembly">
          <Item>Pag</Item>
-         <Item>'Uol.PagSeguro.dll'</Item>
+         <Item>'Uol.PagSeguro.NET8.dll'</Item>
         </Issue>
        </Message>
        <Message Id="Seguro" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2011-07-04 13:47:08Z">
         <Issue Name="Assembly">
          <Item>Seguro</Item>
-         <Item>'Uol.PagSeguro.dll'</Item>
+         <Item>'Uol.PagSeguro.NET8.dll'</Item>
         </Issue>
        </Message>
        <Message Id="Uol" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2011-07-04 13:47:08Z">
         <Issue Name="Assembly">
          <Item>Uol</Item>
-         <Item>'Uol.PagSeguro.dll'</Item>
+         <Item>'Uol.PagSeguro.NET8.dll'</Item>
         </Issue>
        </Message>
       </Messages>

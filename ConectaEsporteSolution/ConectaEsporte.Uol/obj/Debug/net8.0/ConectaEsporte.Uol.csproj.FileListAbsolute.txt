@@ -1,0 +1,16 @@
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\bin\Debug\net8.0\ConectaEsporte.Uol.deps.json
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\bin\Debug\net8.0\ConectaEsporte.Uol.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\bin\Debug\net8.0\ConectaEsporte.Uol.pdb
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\bin\Debug\net8.0\Uol.PagSeguro.NET8.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\bin\Debug\net8.0\Uol.PagSeguro.NET8.pdb
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.csproj.AssemblyReference.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.AssemblyInfoInputs.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.AssemblyInfo.cs
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.csproj.CoreCompileInputs.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.sourcelink.json
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.csproj.CopyComplete
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\refint\ConectaEsporte.Uol.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ConectaEsporte.Uol.pdb
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\ConectaEsporte.Uol\obj\Debug\net8.0\ref\ConectaEsporte.Uol.dll

@@ -1,0 +1,12 @@
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\bin\Debug\net8.0\Uol.PagSeguro.NET8.deps.json
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\bin\Debug\net8.0\Uol.PagSeguro.NET8.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\bin\Debug\net8.0\Uol.PagSeguro.NET8.pdb
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.AssemblyInfoInputs.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.AssemblyInfo.cs
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.csproj.CoreCompileInputs.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.sourcelink.json
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\refint\Uol.PagSeguro.NET8.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\Uol.PagSeguro.NET8.pdb
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro.NET8\obj\Debug\net8.0\ref\Uol.PagSeguro.NET8.dll

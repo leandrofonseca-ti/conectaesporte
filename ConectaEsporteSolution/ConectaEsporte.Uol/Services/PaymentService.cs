@@ -7,11 +7,11 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using Uol.PagSeguro;
-using Uol.PagSeguro.Constants;
-using Uol.PagSeguro.Domain;
-using Uol.PagSeguro.Exception;
-using Uol.PagSeguro.Resources;
+using Uol.PagSeguro.NET8;
+using Uol.PagSeguro.NET8.Constants;
+using Uol.PagSeguro.NET8.Domain;
+using Uol.PagSeguro.NET8.Exception;
+using Uol.PagSeguro.NET8.Resources;
 
 namespace ConectaEsporte.Uol.Services
 {
@@ -26,7 +26,7 @@ namespace ConectaEsporte.Uol.Services
         {
             //Define protocolos de comunicação.
             //Importante para funcionar SSL e TLS.
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
         }
 
         public PaymentResponseEntity CreatePayment(PaymentItemEntity entity, AppSetupEntity setup)
