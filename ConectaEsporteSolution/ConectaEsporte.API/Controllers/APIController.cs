@@ -218,7 +218,7 @@ namespace ConectaEsporte.API.Controllers
                 },
                   new Uol.Models.AppSetupEntity()
                   {
-                      RedirectUri = "https://conectaesporte.com/checkoutresponse",
+                      RedirectUri = "https://admin.conectaesporte.com/notification/ReturnPayment",
                   });
 
                 if (resultPayment.Errors.Count == 0 && string.IsNullOrEmpty(resultPayment.MessageError))
