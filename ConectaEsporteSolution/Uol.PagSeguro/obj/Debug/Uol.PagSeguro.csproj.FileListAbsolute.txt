@@ -1,0 +1,7 @@
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\bin\Debug\Uol.PagSeguro.XML
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\bin\Debug\Uol.PagSeguro.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\bin\Debug\Uol.PagSeguro.pdb
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.csproj.AssemblyReference.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.csproj.CoreCompileInputs.cache
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.dll
+C:\Projetos\GitHub\conectaesporte\ConectaEsporteSolution\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.pdb

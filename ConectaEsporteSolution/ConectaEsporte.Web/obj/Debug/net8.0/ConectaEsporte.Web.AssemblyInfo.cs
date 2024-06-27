@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConectaEsporte.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87fd6371b398a5ede8f4981e2e8cf5046f3fba29")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConectaEsporte.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConectaEsporte.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,8 @@
 ﻿using ConectaEsporte.Core.Database;
 using ConectaEsporte.Core.Services;
 using ConectaEsporte.Core.Services.Repositories;
+using ConectaEsporte.Uol.Repository;
+using ConectaEsporte.Uol.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -30,6 +32,7 @@ namespace ConectaEsporte.API.Setup
             // Repositories.
             services.AddScoped<IUserRepository, UserService>();
             services.AddScoped<IServiceRepository, GeralService>();
+            services.AddScoped<IPaymentRepository, PaymentService>(); 
             // Helpers
 
             // Services.

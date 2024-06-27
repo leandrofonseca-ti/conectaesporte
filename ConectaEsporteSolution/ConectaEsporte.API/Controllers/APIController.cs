@@ -4,6 +4,7 @@ using ConectaEsporte.Core;
 using ConectaEsporte.Core.Helper;
 using ConectaEsporte.Core.Models;
 using ConectaEsporte.Core.Services.Repositories;
+using ConectaEsporte.Uol.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,11 +26,13 @@ namespace ConectaEsporte.API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly IServiceRepository _serviceRepository;
-        public APIController(IUserRepository userRepository, IConfiguration configuration, IServiceRepository serviceRepository)
+        private readonly IPaymentRepository _paymentRepository;
+        public APIController(IUserRepository userRepository, IConfiguration configuration, IServiceRepository serviceRepository, IPaymentRepository paymentRepository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
             _serviceRepository = serviceRepository;
+            _paymentRepository = paymentRepository;
         }
 
 
@@ -199,26 +202,59 @@ namespace ConectaEsporte.API.Controllers
             var json = new LargeJsonResult();
             try
             {
-
-
-                // TODO: API PAGAMENTO
-                var result = await _serviceRepository.UpdatePaymentUser(user.Email, user.Amount, user.Description, user.OwnerId);
-
-                if (result != null)
+                var userDetail = await _serviceRepository.GetUserByEmail(user.Email);
+                var phoneDDD = Util.GetPhoneDDD(userDetail.Phone);
+                var phoneNumber = Util.GetPhoneNumber(userDetail.Phone);
+                var resultPayment = _paymentRepository.CreatePayment(new Uol.Models.PaymentItemEntity()
                 {
-                    await _serviceRepository.UpdateAmountPayment(user.Email);
+                    Code = "1000",
+                    UserReference = string.Format("REF{0}", userDetail.Id),
+                    Description = user.Description,
+                    Price = user.Amount,
+                    UserEmail = user.Email,
+                    UserName = userDetail.Name,
+                    UserPhone = phoneNumber,
+                    UserPhoneDDD = phoneDDD
+                },
+                  new Uol.Models.AppSetupEntity()
+                  {
+                      RedirectUri = "https://conectaesporte.com/checkoutresponse",
+                  });
+
+                if (resultPayment.Errors.Count == 0 && string.IsNullOrEmpty(resultPayment.MessageError))
+                {
+                    // TODO: API PAGAMENTO
+                    //var result = await _serviceRepository.UpdatePaymentUser(user.Email, user.Amount, user.Description, user.OwnerId);
+
+                    //if (result != null)
+                    //{
+                    //  await _serviceRepository.UpdateAmountPayment(user.Email);
                     json.Value = new
                     {
                         StatusCode = HttpStatusCode.OK,
-                        Data = result
+                        Data = true,
+                        Message = "",
+                        Uri = resultPayment.Uri
                     };
+                    //}
+                    //else
+                    //{
+                    //    json.Value = new
+                    //    {
+                    //        StatusCode = HttpStatusCode.OK,
+                    //        Data = false,
+                    //        Message = "Problemas para gerar pagamento. Tente mais tarde!",
+                    //    };
+                    //}
                 }
                 else
                 {
                     json.Value = new
                     {
                         StatusCode = HttpStatusCode.OK,
-                        Data = false
+                        Data = false,
+                        Message = resultPayment.MessageError,
+                        Errors = resultPayment.Errors
                     };
                 }
             }

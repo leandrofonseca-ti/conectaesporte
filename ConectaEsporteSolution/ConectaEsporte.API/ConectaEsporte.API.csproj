@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConectaEsporte.Core\ConectaEsporte.Core.csproj" />
+    <ProjectReference Include="..\ConectaEsporte.Uol\ConectaEsporte.Uol.csproj" />
   </ItemGroup>
 
 </Project>
