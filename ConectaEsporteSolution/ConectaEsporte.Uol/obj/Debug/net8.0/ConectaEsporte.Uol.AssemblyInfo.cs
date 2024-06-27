@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("ConectaEsporte.Web")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("ConectaEsporte.Uol")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e432e390a99b9d0fbb397ae0251f1beacd855ad1")]
-[assembly: System.Reflection.AssemblyProductAttribute("ConectaEsporte.Web")]
-[assembly: System.Reflection.AssemblyTitleAttribute("ConectaEsporte.Web")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyProductAttribute("ConectaEsporte.Uol")]
+[assembly: System.Reflection.AssemblyTitleAttribute("ConectaEsporte.Uol")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.

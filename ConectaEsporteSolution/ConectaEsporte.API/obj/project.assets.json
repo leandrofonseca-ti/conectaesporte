@@ -727,6 +727,28 @@
         "runtime": {
           "bin/placeholder/ConectaEsporte.Core.dll": {}
         }
+      },
+      "ConectaEsporte.Uol/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Uol.PagSeguro": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ConectaEsporte.Uol.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ConectaEsporte.Uol.dll": {}
+        }
+      },
+      "Uol.PagSeguro/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Uol.PagSeguro.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Uol.PagSeguro.dll": {}
+        }
       }
     }
   },
@@ -2053,11 +2075,22 @@
       "type": "project",
       "path": "../ConectaEsporte.Core/ConectaEsporte.Core.csproj",
       "msbuildProject": "../ConectaEsporte.Core/ConectaEsporte.Core.csproj"
+    },
+    "ConectaEsporte.Uol/1.0.0": {
+      "type": "project",
+      "path": "../ConectaEsporte.Uol/ConectaEsporte.Uol.csproj",
+      "msbuildProject": "../ConectaEsporte.Uol/ConectaEsporte.Uol.csproj"
+    },
+    "Uol.PagSeguro/1.0.0": {
+      "type": "project",
+      "path": "../Uol.PagSeguro/Uol.PagSeguro.csproj",
+      "msbuildProject": "../Uol.PagSeguro/Uol.PagSeguro.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "ConectaEsporte.Core >= 1.0.0",
+      "ConectaEsporte.Uol >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.6",
       "Microsoft.AspNetCore.OpenApi >= 8.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.6",
@@ -2098,6 +2131,9 @@
           "projectReferences": {
             "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Core\\ConectaEsporte.Core.csproj": {
               "projectPath": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Core\\ConectaEsporte.Core.csproj"
+            },
+            "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Uol\\ConectaEsporte.Uol.csproj": {
+              "projectPath": "C:\\Projetos\\GitHub\\conectaesporte\\ConectaEsporteSolution\\ConectaEsporte.Uol\\ConectaEsporte.Uol.csproj"
             }
           }
         }
