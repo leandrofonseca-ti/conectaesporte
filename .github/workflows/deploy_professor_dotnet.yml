@@ -4,12 +4,12 @@ on:
    #   - main
   workflow_dispatch:
   
-name: Deploy Web (.NET) - Professor
+name: Deploy Web (.NET) - Admin
 
 env:
   VERSION_NAME: WebProd
   WEBAPP_PACKAGE_PATH: ./publish
-  SERVER_PATH: "./professor.conectaesporte.com/"
+  SERVER_PATH: "./admin.conectaesporte.com/"
   SOLUTION_APP: .\ConectaEsporteSolution\ConectaEsporteSolution.sln
   PROJECT_APP: .\ConectaEsporteSolution\ConectaEsporte.Web\ConectaEsporte.Web.csproj
   PROJECT_RELEASE: "./ConectaEsporteSolution/ConectaEsporte.Web/bin/Release/"
