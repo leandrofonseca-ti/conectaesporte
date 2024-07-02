@@ -170,7 +170,7 @@ namespace ConectaEsporte.API.Controllers
                     {
                         StatusCode = HttpStatusCode.OK,
                         Data = new PaymentModel
-                        {
+                        {                            
                             Plans = resultPlanGroup,
                             PlanSelected = null,
                             UserEmail = user.Email,
@@ -198,6 +198,66 @@ namespace ConectaEsporte.API.Controllers
         [Authorize]
         [HttpPost("Payment/Add")]
         public async Task<IActionResult> PaymentAdd(LoginPaymentSetModel user)
+        {
+            var json = new LargeJsonResult();
+            try
+            {
+                var userDetail = await _serviceRepository.GetUserByEmail(user.Email);
+                var phoneDDD = Util.GetPhoneDDD(userDetail.Phone);
+                var phoneNumber = Util.GetPhoneNumber(userDetail.Phone);
+                var resultPayment = _paymentRepository.CreatePayment(new Uol.Models.PaymentItemEntity()
+                {
+                    Code = "1000",
+                    UserReference = string.Format("REF{0}", userDetail.Id),
+                    Description = user.Description,
+                    Price = user.Amount,
+                    UserEmail = user.Email,
+                    UserName = userDetail.Name,
+                    UserPhone = phoneNumber,
+                    UserPhoneDDD = phoneDDD
+                },
+                  new Uol.Models.AppSetupEntity()
+                  {
+                      RedirectUri = "https://admin.conectaesporte.com/notification/ReturnPayment",
+                  });
+
+                if (resultPayment.Errors.Count == 0 && string.IsNullOrEmpty(resultPayment.MessageError))
+                {
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = true,
+                        Message = "",
+                        Uri = resultPayment.Uri
+                    };
+                }
+                else
+                {
+                    json.Value = new
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = false,
+                        Message = resultPayment.MessageError,
+                        Errors = resultPayment.Errors
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                json.Value = new
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = ex
+                };
+            }
+            return json;
+        }
+
+
+        /*
+        [Authorize]
+        [HttpPost("Payment/Add")]
+        public async Task<IActionResult> PaymentProcess(LoginPaymentSetModel user)
         {
             var json = new LargeJsonResult();
             try
@@ -268,8 +328,7 @@ namespace ConectaEsporte.API.Controllers
             }
             return json;
         }
-
-
+        */
         [Authorize]
         [HttpPost("Payment/Build")]
         public async Task<IActionResult> PaymentBuild(LoginPaymentModel user)
@@ -409,7 +468,10 @@ namespace ConectaEsporte.API.Controllers
                         TotalNotification = totalNotification,
                         TotalClass = totalClass,
                         TotalEvent = totalEvent,
-                        Amount = resultUser.Amount,
+                        PlanId = resultUser.PlanId,
+                        PlanName = resultUser.PlanName,
+                        PlanPrice = resultUser.PlanPrice,
+                        PlanDescription = resultUser.PlanDescription,
                         ListEventTop = listEventTop,
                         ListClassTop = listClassTop
                     }

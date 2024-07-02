@@ -26,7 +26,7 @@ namespace ConectaEsporte.Core.Services.Repositories
         Task<PlanBuildEntity> GetPlanBuild(string email, long planId);
         Task<bool> UpdatePaymentUser(string email, decimal amount, string description, long ownerid);
 
-        Task<bool> UpdateAmountPayment(string email);
+        //Task<bool> UpdateAmountPayment(string email);
 
         Task<List<RoomClassEntity>> ListRoomType(string email, EnumTypeRoom eventEnum, int pageIndex);
 

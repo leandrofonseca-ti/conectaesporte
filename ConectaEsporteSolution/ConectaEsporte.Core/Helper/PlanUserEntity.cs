@@ -10,9 +10,7 @@ namespace ConectaEsporte.Core.Helper
     {
         public long Id { get; set; }
         public long UserId { get; set; }
-        public decimal _amount { get; set; }
-        public decimal Amount { get { return decimal.Round(_amount, 2, MidpointRounding.AwayFromZero); } set { _amount = value; } }
-        public string AmountFmt { get { return string.Format("{0:0,0.00}", Amount); } }
+        public long PlanId { get; set; }
 
         public DateTime Created { get; set; }
         public DateTime Finished { get; set; }
@@ -23,5 +21,9 @@ namespace ConectaEsporte.Core.Helper
         public string FinishedFormat { get { return Finished.ToString("dd/MM/yyyy"); } }
         public string FinishedTimeFormat { get { return Finished.ToString("HH:mm"); } }
 
+        public string PlanName { get;  set; }
+        public string PlanDescription { get;  set; }
+        public decimal PlanPrice { get;  set; }
+        public int PlanPeriodMonth { get;  set; }
     }
 }

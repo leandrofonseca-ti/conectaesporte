@@ -28,14 +28,20 @@ namespace ConectaEsporte.API.Models
         public int TotalClass { get; set; }
         public int TotalEvent { get; set; }
 
-        private  decimal _amount {  get; set; }
-        public decimal Amount { get { return decimal.Round(_amount, 2, MidpointRounding.AwayFromZero); } set { _amount = value; } }
-        public string AmountFmt { get { return string.Format("{0:0,0.00}", Amount); } }
+        //private  decimal _amount {  get; set; }
+        //public decimal Amount { get { return decimal.Round(_amount, 2, MidpointRounding.AwayFromZero); } set { _amount = value; } }
+        //public string AmountFmt { get { return string.Format("{0:0,0.00}", Amount); } }
         public List<CheckinDetailModel> ListToday { get; set; } = new List<CheckinDetailModel>();
 
         public List<CheckinDetailModel> ListNext { get; set; } = new List<CheckinDetailModel>();
 
         public List<CheckinDetailModel> ListDone { get; set; } = new List<CheckinDetailModel>();
+        public long PlanId { get;  set; }
+        public string PlanName { get;  set; }
+        public string PlanDescription { get;  set; }
+        private  decimal _planPrice {  get; set; }
+        public decimal PlanPrice { get { return decimal.Round(_planPrice, 2, MidpointRounding.AwayFromZero); } set { _planPrice = value; } }
+        public string PlanPriceFmt { get { return string.Format("{0:0,0.00}", _planPrice); } }
     }
 
     [Serializable]

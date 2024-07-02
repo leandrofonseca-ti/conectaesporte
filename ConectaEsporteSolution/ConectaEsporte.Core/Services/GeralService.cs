@@ -299,34 +299,34 @@ namespace ConectaEsporte.Core.Services
 
             return result;
         }
-        public async Task<bool> UpdateAmountPayment(string email)
-        {
-            var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
+        //public async Task<bool> UpdateAmountPayment(string email)
+        //{
+        //    var userEntity = await _dbContext.user.Where(t => t.Email == email).SingleOrDefaultAsync();
 
-            if (userEntity != null)
-            {
-                var entities = await _dbContext.planuserhistory.Where(t => t.UserId == userEntity.Id).ToListAsync();
+        //    if (userEntity != null)
+        //    {
+        //        var entities = await _dbContext.planuserhistory.Where(t => t.UserId == userEntity.Id).ToListAsync();
 
-                if (entities != null)
-                {
-                    decimal total = 0;
-                    entities.ForEach(t =>
-                    {
-                        total += t.Amount;
-                    });
+        //        if (entities != null)
+        //        {
+        //            decimal total = 0;
+        //            entities.ForEach(t =>
+        //            {
+        //                total += t.Amount;
+        //            });
 
-                    var userEntityPlan = await _dbContext.planuser.Where(t => t.UserId == userEntity.Id).SingleOrDefaultAsync();
+        //            var userEntityPlan = await _dbContext.planuser.Where(t => t.UserId == userEntity.Id).SingleOrDefaultAsync();
 
-                    if (userEntityPlan != null)
-                    {
-                        userEntityPlan.Total = total;
-                        _dbContext.SaveChanges();
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
+        //            if (userEntityPlan != null)
+        //            {
+        //                userEntityPlan.Total = total;
+        //                _dbContext.SaveChanges();
+        //            }
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
 
         public async Task<PlanBuildEntity> GetPlanBuild(string email, long planId)
@@ -372,6 +372,7 @@ namespace ConectaEsporte.Core.Services
                          {
                              Active = plans.Active,
                              Description = plans.Description,
+                             TimesOfWeek = plans.TimesOfWeek,
                              Id = plans.Id,
                              Name = plans.Name,
                              Order = plans.Order,
@@ -393,12 +394,17 @@ namespace ConectaEsporte.Core.Services
         {
             var query = (from users in _dbContext.user
                          join plansuser in _dbContext.planuser on users.Id equals plansuser.UserId
+                         join plan  in _dbContext.plan on plansuser.PlanId equals plan.Id
                          where users.Email == email
                          select new PlanUserEntity
                          {
                              Created = plansuser.Created,
                              Finished = plansuser.Finished,
-                             Amount = plansuser.Total,
+                             PlanId = plansuser.PlanId,
+                             PlanName = plan.Name,
+                             PlanDescription = plan.Description,
+                             PlanPrice = plan.Price,
+                             PlanPeriodMonth = plan.PeriodMonth,                             
                              Id = plansuser.Id,
                              UserId = plansuser.UserId
                          }).ToListAsync();
@@ -427,6 +433,6 @@ namespace ConectaEsporte.Core.Services
             return false;
         }
 
-
+         
     }
 }

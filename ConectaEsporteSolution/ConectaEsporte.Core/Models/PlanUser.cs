@@ -10,7 +10,7 @@ namespace ConectaEsporte.Core.Models
     {
         public long Id { get; set; }
         public long UserId { get; set; }
-        public decimal Total { get; set; }
+        public long PlanId { get; set; }
         public DateTime Created { get; set; }
         public DateTime Finished { get; set; }
 
